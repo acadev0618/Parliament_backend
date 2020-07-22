@@ -139,4 +139,10 @@ Route::post('/updateStateOpening', 'Downloads\StateOpeningController@updateState
 Route::post('/deleteStateOpening', 'Downloads\StateOpeningController@deleteStateOpening')->name('request');
 Route::post('/multiDeleteStateOpening', 'Downloads\StateOpeningController@multiDeleteStateOpening')->name('request');
 
+////////////////////////////////////  Video Streaming Urls   //////////////////////////////////////
+Route::get('/videoStreaming', 'VideoStreaming\VideoStreamingController@index')->name('request');
+Route::post('/createVideoStreaming', 'VideoStreaming\VideoStreamingController@createVideoStreaming')->name('request');
+Route::post('/updateVideoStreaming', 'VideoStreaming\VideoStreamingController@updateVideoStreaming')->name('request');
+Route::post('/deleteVideoStreaming', 'VideoStreaming\VideoStreamingController@deleteVideoStreaming')->name('request');
+Route::post('/multiDeleteVideoStreaming', 'VideoStreaming\VideoStreamingController@multiDeleteVideoStreaming')->name('request');
 

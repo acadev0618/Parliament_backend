@@ -798,6 +798,117 @@ var TableManaged = function () {
         });
     }
 
+    var videoStreamingTable = function () {
+
+        var table = $('#videoStreaming_table');
+        table.dataTable({
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "Show _MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "language": {
+                "lengthMenu": " _MENU_ records"
+            },
+            "columnDefs": [{  // set default column settings
+                'orderable': false,
+                'targets': [0]
+            }, {
+                "searchable": false,
+                "targets": [0]
+            }],
+            "order": [
+                [1, "asc"]
+            ] // set first column as a default sort by asc
+        });
+
+        table.on('click', '.previewVideoStreamingModal', function(){
+
+            var modal = $('#previewVideoStreamingModal');
+            $('#previewTitle').val($(this).data('title'));
+            $('#previewDescription').val($(this).data('description'));
+            $('#previewUrl').val($(this).data('url'));
+            modal.modal('show');
+        });
+
+        table.on('click', '.deleteVideoStreamingModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#deleteVideoStreamingModal');
+
+            modal.find('.id').val(id);
+            modal.modal('show');
+        });
+
+        table.on('click', '.editVideoStreamingModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#editVideoStreamingModal');
+            $('#editTitle').val($(this).data('title'));
+            $('#editDescription').val($(this).data('description'));
+            $('#editUrl').val($(this).data('url'));
+            modal.find('#edit_id').val(id);
+            modal.modal('show');
+        });
+
+        table.find('.group-checkable').change(function () {
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                } else {
+                    $(this).attr("checked", false);
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $(document).on('click', '.deleteMultiVideoStreamingModal', function(){
+            var modal = $('#deleteMultiVideoStreamingModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var ids = allVals.join(",");
+
+                modal.find('.ids').val(ids);
+            }
+        });
+    }
+
     var aboutUsTable = function () {
 
         var table = $('#aboutUs_table');
@@ -2240,6 +2351,7 @@ var TableManaged = function () {
             constitutionTable();
             stateOpeningTable();
             budgetInformationTable();
+            videoStreamingTable();
             aboutUsTable();
             parliamentMembersTable();
             parliamentChiefMPsTable();

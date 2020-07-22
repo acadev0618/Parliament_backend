@@ -119,7 +119,7 @@
             @else
             <li>
             @endif
-                <a href="{{ asset('/videostreaming') }}" class="active">
+                <a href="{{ asset('/videoStreaming') }}" class="active">
                     <i class="icon-briefcase"></i>
                     <span class="title">Video Streaming</span>
                     <span class="selected"></span>
