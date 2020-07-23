@@ -33,13 +33,14 @@ class StateOpeningController extends Controller {
             $file_name = $file->getClientOriginalName();
             $destinationPath = 'uploads/downloads/';
             $file->move($destinationPath,$file_name);
-            $file_path = env('BASE_URL')."/uploads/downloads/".$file_name;
+            $file_path = $destinationPath.$file_name;
         }
 
         $data = array(
             "title" => $request->title,
             "file_path" => $file_path,
-            "kind" => 6
+            "kind" => 6,
+            "file_name" => $file_name,
         );
 
         $result = DB::table('downloads')->insert($data);
@@ -61,8 +62,9 @@ class StateOpeningController extends Controller {
             $file_name = $file->getClientOriginalName();
             $destinationPath = 'uploads/downloads/';
             $file->move($destinationPath,$file_name);
-            $file_link = env('BASE_URL')."/uploads/downloads/".$file_name;
+            $file_link = $destinationPath.$file_name;
             $data += [ "file_path" => $file_link ];
+            $data += [ "file_name" => $file_name ];
         }
 
         $result = DB::table('downloads')
