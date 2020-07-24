@@ -145,7 +145,7 @@
                 <label class="label_des col-sm-2" for="title">Topics:</label>
                 <div class="col-sm-9">
                     {{-- <input type="text" class="form-control" name="topics" required> --}}
-                    <textarea class="form-control" name="topics" required></textarea>
+                    <textarea class="form-control" id="addVotes" onkeypress="addVotesFunc();" name="topics" required></textarea>
                 </div>
             </div>
             <div class="modal-footer">

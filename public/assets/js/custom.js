@@ -114,7 +114,6 @@ var TableManaged = function () {
             var modal = $('#editHomeListModal');
             $('#editTitle').val($(this).data('title'));
             $('#editSubtitle').val($(this).data('subtitle'));
-            $('#editKey').val($(this).data('key'));
             modal.find('#editHomeList_id').val(id);
             modal.modal('show');
         });
@@ -227,7 +226,6 @@ var TableManaged = function () {
             var modal = $('#editparliamentListModal');
             $('#editTitle').val($(this).data('title'));
             $('#editSubtitle').val($(this).data('subtitle'));
-            $('#editKey').val($(this).data('key'));
             modal.find('#editParliamentList_id').val(id);
             modal.modal('show');
         });
@@ -319,7 +317,6 @@ var TableManaged = function () {
             var modal = $('#editdownloadListModal');
             $('#editTitle').val($(this).data('title'));
             $('#editSubtitle').val($(this).data('subtitle'));
-            $('#editKey').val($(this).data('key'));
             modal.find('#editDownloadList_id').val(id);
             modal.modal('show');
         });

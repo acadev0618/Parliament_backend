@@ -28,9 +28,6 @@
                                         <th>
                                             subtitle
                                         </th>
-                                        <th>
-                                            key
-                                        </th>
                                         <th style="width: 6%;">
                                             Actions
                                         </th>
@@ -51,10 +48,7 @@
                                             {{ $parliament_list->subtitle }}
                                         </td>
                                         <td>
-                                            {{ $parliament_list->key }}
-                                        </td>
-                                        <td>
-                                            <a class="editparliamentListModal" data-id="{{ $parliament_list->id }}" data-title="{{ $parliament_list->title }}" data-subtitle="{{ $parliament_list->subtitle }}" data-key="{{ $parliament_list->key }}" data-toggle="modal"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                                            <a class="editparliamentListModal" data-id="{{ $parliament_list->id }}" data-title="{{ $parliament_list->title }}" data-subtitle="{{ $parliament_list->subtitle }}" data-toggle="modal"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -92,13 +86,6 @@
                 <label class="label_des col-sm-2" for="title">Subtitle:</label>
                 <div class="col-sm-9">
                     <input type="text" class="form-control" id="editSubtitle" name="subtitle" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-1"></div>
-                <label class="label_des col-sm-2" for="title">Key:</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="editKey" name="key" required>
                 </div>
             </div>
 

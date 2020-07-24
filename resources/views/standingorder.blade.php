@@ -145,7 +145,7 @@
                 <label class="label_des col-sm-2" for="title">Contents:</label>
                 <div class="col-sm-9">
                     {{-- <input type="text" class="form-control" name="contents" required> --}}
-                    <textarea class="form-control" class="form-control" name="contents" required></textarea>
+                    <textarea class="form-control" class="form-control" id="addStandingOrder" onkeypress="addStandingOrderFunc();" name="contents" required></textarea>
                 </div>
             </div>
             <div class="modal-footer">

@@ -28,8 +28,7 @@ class HomeController extends Controller {
         $id = array('id' => $request->id);
         $data = array(
             'title' => $request->title,
-            'subtitle' => $request->subtitle,
-            'key' => $request->key
+            'subtitle' => $request->subtitle
         );
         $result = DB::table('hometable')
                 ->where($id)

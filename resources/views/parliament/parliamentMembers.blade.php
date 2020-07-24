@@ -172,7 +172,7 @@
                 <label class="label_des col-sm-4" for="title">Description:</label>
                 <div class="col-sm-8">
                     {{-- <input type="text" class="form-control" name="description"> --}}
-                    <textarea class="form-control" name="description"></textarea>
+                    <textarea class="form-control" id="addParliamentMembers" onkeypress="addParliamentMembersFunc();" name="description"></textarea>
                 </div>
             </div>
             <div class="modal-footer">

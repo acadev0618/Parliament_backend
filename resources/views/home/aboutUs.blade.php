@@ -146,7 +146,7 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Description:</label>
                 <div class="col-sm-9">
-                    <textarea class="form-control" name="description" required></textarea>
+                    <textarea class="form-control" id="addAboutUs" onkeypress="addAboutUsFunc();" name="description" required></textarea>
                     {{-- <input type="text" class="form-control" name="description" required> --}}
                 </div>
             </div>

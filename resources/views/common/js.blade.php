@@ -70,3 +70,70 @@
         }
     });
 </script>
+<script>
+    function addConstitutionFunc() {
+        var key = window.event.keyCode;
+        if (key === 13) {
+            document.getElementById("addConstitution").value = document.getElementById("addConstitution").value + "\n";
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function addStandingOrderFunc() {
+        var key = window.event.keyCode;
+        if (key === 13) {
+            document.getElementById("addStandingOrder").value = document.getElementById("addStandingOrder").value + "\n";
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function addVideoStreamingFunc() {
+        var key = window.event.keyCode;
+        if (key === 13) {
+            document.getElementById("addVideoStreaming").value = document.getElementById("addVideoStreaming").value + "\n";
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function addVotesFunc() {
+        var key = window.event.keyCode;
+        if (key === 13) {
+            document.getElementById("addVotes").value = document.getElementById("addVotes").value + "\n";
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function addAboutUsFunc() {
+        var key = window.event.keyCode;
+        if (key === 13) {
+            document.getElementById("addAboutUs").value = document.getElementById("addAboutUs").value + "\n";
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+
+    function addParliamentMembersFunc() {
+        var key = window.event.keyCode;
+        if (key === 13) {
+            document.getElementById("addParliamentMembers").value = document.getElementById("addParliamentMembers").value + "\n";
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+</script>
