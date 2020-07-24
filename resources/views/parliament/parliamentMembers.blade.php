@@ -315,7 +315,7 @@
                 <label class="label_des col-sm-4" for="title">Description:</label>
                 <div class="col-sm-8">
                     {{-- <input type="text" class="form-control" name="description" id="edit_description"> --}}
-                    <textarea class="form-control" name="description" id="edit_description"></textarea>
+                    <textarea class="form-control" rows="10" name="description" id="edit_description"></textarea>
                 </div>
             </div>
             <div class="modal-footer">

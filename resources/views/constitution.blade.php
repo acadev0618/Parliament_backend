@@ -229,7 +229,7 @@
                 <label class="label_des col-sm-2" for="title">Contents:</label>
                 <div class="col-sm-9">
                     {{-- <input type="text" class="form-control" id="editContents" name="contents" required> --}}
-                    <textarea class="form-control" id="editContents" name="contents" required></textarea>
+                    <textarea class="form-control" rows="10" id="editContents" name="contents" required></textarea>
                 </div>
             </div>
 

@@ -249,7 +249,7 @@
                 <label class="label_des col-sm-2" for="title">Description:</label>
                 <div class="col-sm-9">
                     {{-- <input type="text" class="form-control" id="editDescription" name="description" required> --}}
-                    <textarea class="form-control" id="editDescription" name="description" required></textarea>
+                    <textarea class="form-control" rows="10" id="editDescription" name="description" required></textarea>
                 </div>
             </div>
             <div class="form-group">

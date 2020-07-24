@@ -229,7 +229,7 @@
                 <label class="label_des col-sm-2" for="title">Topics:</label>
                 <div class="col-sm-9">
                     {{-- <input type="text" class="form-control" id="editTopics" name="topics" required> --}}
-                    <textarea class="form-control" id="editTopics" name="topics" required></textarea>
+                    <textarea class="form-control" rows="10" id="editTopics" name="topics" required></textarea>
                 </div>
             </div>
 
