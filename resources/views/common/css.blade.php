@@ -23,3 +23,17 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
 <link href="{{ asset('assets/datatables/css/editor.dataTables.css') }}" rel="stylesheet" type="text/css"/>
+<style>
+    textarea {
+        width:200px;
+        resize:both;
+        /* overflow:hidden; */
+        overflow-y: scroll;
+        font-size:18px;
+        height:1.1em;
+        padding:2px;    
+    }
+    .row_selected td {
+        background-color: rgb(217, 217, 217) !important; /* Add !important to make sure override datables base styles */
+    }
+</style>

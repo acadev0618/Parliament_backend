@@ -95,7 +95,11 @@
                                             {{ $parliamentMembers_list->email }}
                                         </td>
                                         <td>
-                                            {{ $parliamentMembers_list->description }}
+                                            @if (strlen($parliamentMembers_list->description) > 60)
+                                                {{ substr($parliamentMembers_list->description, 0, 60) }}...
+                                            @else
+                                                {{ $parliamentMembers_list->description }}
+                                            @endif
                                         </td>
                                         <td>
                                             <a class="previewParliamentModal" data-name="{{ $parliamentMembers_list->name }}" data-constituency="{{ $parliamentMembers_list->constituency }}" data-type="{{ $parliamentMembers_list->type }}" data-image="{{ $parliamentMembers_list->image }}" data-mobile="{{ $parliamentMembers_list->mobile }}" data-email="{{ $parliamentMembers_list->email }}" data-description="{{ $parliamentMembers_list->description }}" data-toggle="modal"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
@@ -167,7 +171,8 @@
             <div class="form-group">
                 <label class="label_des col-sm-4" for="title">Description:</label>
                 <div class="col-sm-8">
-                    <input type="text" class="form-control" name="description">
+                    {{-- <input type="text" class="form-control" name="description"> --}}
+                    <textarea class="form-control" name="description"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -238,7 +243,8 @@
 					<label class="label_des col-sm-12" for="title">Description:</label>
 				</div>
 				<div class="col-sm-8">
-                    <input type="text" class="form-control" id="prev_description" required readonly>
+                    {{-- <input type="text" class="form-control" id="prev_description" required readonly> --}}
+                    <textarea class="form-control" rows="10" id="prev_description" required readonly></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -303,6 +309,13 @@
                 <label class="label_des col-sm-4" for="title">Email:</label>
                 <div class="col-sm-8">
                     <input type="email" class="form-control" name="email" id="edit_email">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="label_des col-sm-4" for="title">Description:</label>
+                <div class="col-sm-8">
+                    {{-- <input type="text" class="form-control" name="description" id="edit_description"> --}}
+                    <textarea class="form-control" name="description" id="edit_description"></textarea>
                 </div>
             </div>
             <div class="modal-footer">

@@ -65,7 +65,11 @@
                                             {{ $aboutUs_list->title }}
                                         </td>
                                         <td>
-                                            {{ $aboutUs_list->description }}
+                                            @if (strlen($aboutUs_list->description) > 150)
+                                                {{ substr($aboutUs_list->description, 0, 150) }}...
+                                            @else
+                                                {{ $aboutUs_list->description }}
+                                            @endif
                                         </td>
                                         <td>
                                             <a class="previewAboutUsModal" data-id="{{ $aboutUs_list->id }}" data-title="{{ $aboutUs_list->title }}" data-description="{{ $aboutUs_list->description }}" data-toggle="modal"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
@@ -106,7 +110,8 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Description:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="previewDescription" name="description" readonly autofocus>
+                    <textarea class="form-control" rows="20" id="previewDescription" name="description" readonly autofocus></textarea>
+                    {{-- <input type="text" class="form-control" id="previewDescription" name="description" readonly autofocus> --}}
                 </div>
             </div>
 
@@ -141,7 +146,8 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Description:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" name="description" required>
+                    <textarea class="form-control" name="description" required></textarea>
+                    {{-- <input type="text" class="form-control" name="description" required> --}}
                 </div>
             </div>
             <div class="modal-footer">
@@ -224,7 +230,8 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Description:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="editDescription" name="description" required>
+                    <textarea class="form-control" id="editDescription" name="description" required></textarea>
+                    {{-- <input type="text" class="form-control" id="editDescription" name="description" required> --}}
                 </div>
             </div>
 

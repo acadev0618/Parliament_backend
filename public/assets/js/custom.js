@@ -62,7 +62,7 @@ var TableManaged = function () {
     var homeTable = function () {
 
         var table = $('#home_table');
-        table.dataTable({
+        var oTable = table.dataTable({
             "language": {
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",
@@ -96,7 +96,16 @@ var TableManaged = function () {
             }],
             "order": [
                 [0, "asc"]
-            ] // set first column as a default sort by asc
+            ],  // set first column as a default sort by asc
+            "paging":   false,
+            "info":     false 
+        });
+
+        $("#home_table tbody tr").click(function (event) {
+            $(oTable.fnSettings().aoData).each(function () {
+                $(this.nTr).removeClass('row_selected');
+            });
+            $(event.target.parentNode).addClass('row_selected');
         });
 
         table.on('click', '.editHomeListModal', function(){
@@ -156,9 +165,6 @@ var TableManaged = function () {
                 case '014':
                     window.location.href = '/parliamentCalendar';
                     break;
-                case '015':
-                    window.location.href = '/votesProceedings';
-                    break;
                 default:
                     window.location.href = '/home';
                     break;
@@ -169,7 +175,7 @@ var TableManaged = function () {
     var parliamentTable = function () {
 
         var table = $('#parliament_table');
-        table.dataTable({
+        var oTable = table.dataTable({
             "language": {
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",
@@ -203,7 +209,16 @@ var TableManaged = function () {
             }],
             "order": [
                 [0, "asc"]
-            ] // set first column as a default sort by asc
+            ], // set first column as a default sort by asc
+            "paging":   false,
+            "info":     false 
+        });
+
+        $("#parliament_table tbody tr").click(function (event) {
+            $(oTable.fnSettings().aoData).each(function () {
+                $(this.nTr).removeClass('row_selected');
+            });
+            $(event.target.parentNode).addClass('row_selected');
         });
 
         table.on('click', '.editparliamentListModal', function(){
@@ -252,7 +267,7 @@ var TableManaged = function () {
     var downloadsTable = function () {
 
         var table = $('#downloads_table');
-        table.dataTable({
+        var oTable = table.dataTable({
             "language": {
                 "aria": {
                     "sortAscending": ": activate to sort column ascending",
@@ -286,7 +301,16 @@ var TableManaged = function () {
             }],
             "order": [
                 [0, "asc"]
-            ] // set first column as a default sort by asc
+            ], // set first column as a default sort by asc
+            "paging":   false,
+            "info":     false 
+        });
+
+        $("#downloads_table tbody tr").click(function (event) {
+            $(oTable.fnSettings().aoData).each(function () {
+                $(this.nTr).removeClass('row_selected');
+            });
+            $(event.target.parentNode).addClass('row_selected');
         });
 
         table.on('click', '.editdownloadListModal', function(){
@@ -465,14 +489,22 @@ var TableManaged = function () {
             },
             "columnDefs": [{  // set default column settings
                 'orderable': false,
-                'targets': [-1]
+                'targets': [0]
             }, {
                 "searchable": false,
                 "targets": [0]
             }],
             "order": [
-                [0, "asc"]
+                [1, "asc"]
             ] // set first column as a default sort by asc
+        });
+        table.on('click', '.previewstandingorderModal', function(){
+
+            var modal = $('#previewstandingorderModal');
+            $('#previewTitle').val($(this).data('title'));
+            $('#previewContents').val($(this).data('contents'));
+            $('#previewUrl').val($(this).data('url'));
+            modal.modal('show');
         });
 
         table.on('click', '.editStandingOrderModal', function(){
@@ -481,9 +513,58 @@ var TableManaged = function () {
             var modal = $('#editStandingOrderModal');
             $('#editTitle').val($(this).data('title'));
             $('#editContents').val($(this).data('contents'));
-            $('#editKey').val($(this).data('key'));
             modal.find('#editStandingOrder_id').val(id);
             modal.modal('show');
+        });
+
+        table.on('click', '.deletestandingorderModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#deletestandingorderModal');
+
+            modal.find('.id').val(id);
+            modal.modal('show');
+        });
+
+        table.find('.group-checkable').change(function () {
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                } else {
+                    $(this).attr("checked", false);
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $(document).on('click', '.deleteMultistandingorderModal', function(){
+            var modal = $('#deleteMultistandingorderModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var ids = allVals.join(",");
+
+                modal.find('.ids').val(ids);
+            }
         });
     }
 
@@ -1094,7 +1175,7 @@ var TableManaged = function () {
             $('#edit_type').val($(this).data('type'));
             $('#edit_mobile').val($(this).data('mobile'));
             $('#edit_email').val($(this).data('email'));
-            $('#prev_description').val($(this).data('description'));
+            $('#edit_description').val($(this).data('description'));
 
             modal.modal('show');
         });

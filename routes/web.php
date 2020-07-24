@@ -110,6 +110,9 @@ Route::post('/multiDeleteResearchMaterials', 'Downloads\DownloadResearchMaterial
 ////////////////////////////////////  Standing Orders Urls   //////////////////////////////////////
 Route::get('/standingOrder', 'StandingOrder\StandingOrderController@index')->name('request');
 Route::post('/updateStandingOrder', 'StandingOrder\StandingOrderController@updateStandingOrder')->name('request');
+Route::post('/createStandingOrder', 'StandingOrder\StandingOrderController@createStandingOrder')->name('request');
+Route::post('/deleteStandingOrder', 'StandingOrder\StandingOrderController@deleteStandingOrder')->name('request');
+Route::post('/multiDeleteStandingOrder', 'StandingOrder\StandingOrderController@multiDeleteStandingOrder')->name('request');
 
 ////////////////////////////////////  Constitution Urls   //////////////////////////////////////
 Route::get('/constitution', 'Constitution\ConstitutionController@index')->name('request');

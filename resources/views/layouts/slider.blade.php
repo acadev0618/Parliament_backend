@@ -47,7 +47,8 @@
             @else
             <li>
             @endif
-                <a href="{{ asset('/onlineporum') }}" class="active">
+                {{-- <a href="{{ asset('/onlineporum') }}" class="active"> --}}
+                <a href="" class="active">
                     <i class="icon-briefcase"></i>
                     <span class="title">Online Porum</span>
                     <span class="selected"></span>

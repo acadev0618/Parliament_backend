@@ -63,7 +63,11 @@
                                             {{ $votes->title }}
                                         </td>
                                         <td>
-                                            {{ $votes->topics }}
+                                            @if (strlen($votes->topics) > 150)
+                                                {{ substr($votes->topics, 0, 150) }}...
+                                            @else
+                                                {{ $votes->topics }}
+                                            @endif
                                         </td>
                                         <td>
                                             <a class="previewVotesModal" data-id="{{ $votes->id }}" data-title="{{ $votes->title }}" data-topics="{{ $votes->topics }}" data-toggle="modal"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
@@ -104,7 +108,8 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Topics:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="previewTopics" name="topics" readonly autofocus>
+                    {{-- <input type="text" class="form-control" id="previewTopics" name="topics" readonly autofocus> --}}
+                    <textarea class="form-control" rows="10" id="previewTopics" name="topics" readonly autofocus></textarea>
                 </div>
             </div>
 
@@ -139,7 +144,8 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Topics:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" name="topics" required>
+                    {{-- <input type="text" class="form-control" name="topics" required> --}}
+                    <textarea class="form-control" name="topics" required></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -222,7 +228,8 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Topics:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="editTopics" name="topics" required>
+                    {{-- <input type="text" class="form-control" id="editTopics" name="topics" required> --}}
+                    <textarea class="form-control" id="editTopics" name="topics" required></textarea>
                 </div>
             </div>
 

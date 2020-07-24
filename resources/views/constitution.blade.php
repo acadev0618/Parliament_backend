@@ -63,7 +63,11 @@
                                             {{ $constitution->title }}
                                         </td>
                                         <td>
-                                            {{ $constitution->contents }}
+                                            @if (strlen($constitution->contents) > 150)
+                                                {{ substr($constitution->contents, 0, 150) }}...
+                                            @else
+                                                {{ $constitution->contents }}
+                                            @endif
                                         </td>
                                         <td>
                                             <a class="previewConstitutionModal" data-id="{{ $constitution->id }}" data-title="{{ $constitution->title }}" data-contents="{{ $constitution->contents }}" data-toggle="modal"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
@@ -104,7 +108,8 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Contents:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="previewContents" name="contents" readonly autofocus>
+                    {{-- <input type="text" class="form-control" id="previewContents" name="contents" readonly autofocus> --}}
+                    <textarea class="form-control" rows="20" id="previewContents" name="contents" readonly autofocus></textarea>
                 </div>
             </div>
 
@@ -139,7 +144,8 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Contents:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" name="contents" required>
+                    {{-- <input type="text" class="form-control" name="contents" required> --}}
+                    <textarea class="form-control" name="contents" required></textarea>
                 </div>
             </div>
             <div class="modal-footer">
@@ -222,7 +228,8 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Contents:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="editContents" name="contents" required>
+                    {{-- <input type="text" class="form-control" id="editContents" name="contents" required> --}}
+                    <textarea class="form-control" id="editContents" name="contents" required></textarea>
                 </div>
             </div>
 

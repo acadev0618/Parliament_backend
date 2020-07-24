@@ -66,7 +66,11 @@
                                             {{ $videoStreaming->title }}
                                         </td>
                                         <td>
-                                            {{ $videoStreaming->description }}
+                                            @if (strlen($videoStreaming->description) > 150)
+                                                {{ substr($videoStreaming->description, 0, 150) }}...
+                                            @else
+                                                {{ $videoStreaming->description }}
+                                            @endif
                                         </td>
                                         <td>
                                             {{ $videoStreaming->url }}
@@ -110,7 +114,8 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Description:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="previewDescription" name="description" readonly autofocus>
+                    {{-- <input type="text" class="form-control" id="previewDescription" name="description" readonly autofocus> --}}
+                    <textarea class="form-control" rows="10" id="previewDescription" name="description" readonly autofocus></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -152,7 +157,8 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Description:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" name="description" required>
+                    {{-- <input type="text" class="form-control" name="description" required> --}}
+                    <textarea class="form-control" name="description" required></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -242,7 +248,8 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-2" for="title">Description:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="editDescription" name="description" required>
+                    {{-- <input type="text" class="form-control" id="editDescription" name="description" required> --}}
+                    <textarea class="form-control" id="editDescription" name="description" required></textarea>
                 </div>
             </div>
             <div class="form-group">
