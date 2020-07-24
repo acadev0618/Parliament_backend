@@ -247,4 +247,94 @@ class APIController extends Controller
             return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $data]);
         }
     }
+
+    public function parliamentMember(Request $request)
+    {
+        $parliament_member = DB::select('select * from members_parilament where id ='. $request->id);
+        if(!$parliament_member) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $parliament_member]);
+        }
+    }
+
+    public function parliamentChiefMembers()
+    {
+        $parliamentChiefMembers_list = DB::select('select * from members_parliament_chief');
+        if(!$parliamentChiefMembers_list) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $parliamentChiefMembers_list]);
+        }
+    }
+
+    public function searchParliamentChiefMembers(Request $request) {
+        $data = DB::select('select * from members_parliament_chief where name like "%'.$request->key.'%"', [1]);
+        
+        if(!$data) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $data]);
+        }
+    }
+
+    public function parliamentChiefMember(Request $request)
+    {
+        $parliamentChiefMember = DB::select('select * from members_parliament_chief where id ='. $request->id);
+        if(!$parliamentChiefMember) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $parliamentChiefMember]);
+        }
+    }
+
+    public function parliamentSpeaker()
+    {
+        $parliamentSpeaker = DB::select('select * from parliament_speaker');
+        if(!$parliamentSpeaker) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $parliamentSpeaker]);
+        }
+    }
+
+    public function parliamentDirectory()
+    {
+        $parliamentDirectory = DB::select('select * from parliament_directory');
+        if(!$parliamentDirectory) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $parliamentDirectory]);
+        }
+    }
+
+    public function parliamentClerk()
+    {
+        $parliamentClerk = DB::select('select * from parliament_clerk');
+        if(!$parliamentClerk) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $parliamentClerk]);
+        }
+    }
+
+    public function parliamentCalendar()
+    {
+        $parliamentClerk = DB::select('select * from parliament_calendar');
+        if(!$parliamentClerk) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $parliamentClerk]);
+        }
+    }
+
+    public function videoStreaming()
+    {
+        $videoStreaming = DB::select('select * from video_streaming');
+        if(!$videoStreaming) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $videoStreaming]);
+        }
+    }
 }

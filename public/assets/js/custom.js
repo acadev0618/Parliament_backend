@@ -115,52 +115,52 @@ var TableManaged = function () {
             console.log('key', key);
             switch (key) {
                 case '001':
-                    window.location.href = 'http://127.0.0.1:4000/aboutUs';
+                    window.location.href = '/aboutUs';
                     break;
                 case '002':
-                    window.location.href = 'http://127.0.0.1:4000/parliamentMembers';
+                    window.location.href = '/parliamentMembers';
                     break;
                 case '003':
-                    window.location.href = 'http://127.0.0.1:4000/standingOrder';
+                    window.location.href = '/standingOrder';
                     break;
                 case '004':
-                    window.location.href = 'http://127.0.0.1:4000/constitution';
+                    window.location.href = '/constitution';
                     break;
                 case '005':
-                    window.location.href = 'http://127.0.0.1:4000/videoStreaming';
+                    window.location.href = '/videoStreaming';
                     break;
                 case '006':
-                    window.location.href = 'http://127.0.0.1:4000/gazettedActs';
+                    window.location.href = '/gazettedActs';
                     break;
                 case '007':
-                    window.location.href = 'http://127.0.0.1:4000/govtAgreements';
+                    window.location.href = '/govtAgreements';
                     break;
                 case '008':
-                    window.location.href = 'http://127.0.0.1:4000/officialReports';
+                    window.location.href = '/officialReports';
                     break;
                 case '009':
-                    window.location.href = 'http://127.0.0.1:4000/committeesReports';
+                    window.location.href = '/committeesReports';
                     break;
                 case '010':
-                    window.location.href = 'http://127.0.0.1:4000/votes';
+                    window.location.href = '/votes';
                     break;
                 case '011':
-                    window.location.href = 'http://127.0.0.1:4000/researchMaterials';
+                    window.location.href = '/researchMaterials';
                     break;
                 case '012':
-                    window.location.href = 'http://127.0.0.1:4000/budgetInformation';
+                    window.location.href = '/budgetInformation';
                     break;
                 case '013':
-                    window.location.href = 'http://127.0.0.1:4000/stateOpening';
+                    window.location.href = '/stateOpening';
                     break;
                 case '014':
-                    window.location.href = 'http://127.0.0.1:4000/parliamentCalendar';
+                    window.location.href = '/parliamentCalendar';
                     break;
                 case '015':
-                    window.location.href = 'http://127.0.0.1:4000/votesProceedings';
+                    window.location.href = '/votesProceedings';
                     break;
                 default:
-                    window.location.href = 'http://127.0.0.1:4000/home';
+                    window.location.href = '/home';
                     break;
             }
         });
@@ -222,28 +222,28 @@ var TableManaged = function () {
             console.log('key', key);
             switch (key) {
                 case '001':
-                    window.location.href = 'http://127.0.0.1:4000/aboutUs';
+                    window.location.href = '/aboutUs';
                     break;
                 case '002':
-                    window.location.href = 'http://127.0.0.1:4000/parliamentMembers';
+                    window.location.href = '/parliamentMembers';
                     break;
                 case '014':
-                    window.location.href = 'http://127.0.0.1:4000/parliamentCalendar';
+                    window.location.href = '/parliamentCalendar';
                     break;
                 case '016':
-                    window.location.href = 'http://127.0.0.1:4000/parliamentChiefMPs';
+                    window.location.href = '/parliamentChiefMPs';
                     break;
                 case '017':
-                    window.location.href = 'http://127.0.0.1:4000/speakerofParliament';
+                    window.location.href = '/speakerofParliament';
                     break;
                 case '018':
-                    window.location.href = 'http://127.0.0.1:4000/clerkofParliament';
+                    window.location.href = '/clerkofParliament';
                     break;
                 case '019':
-                    window.location.href = 'http://127.0.0.1:4000/parliamentDirectory';
+                    window.location.href = '/parliamentDirectory';
                     break;
                 default:
-                    window.location.href = 'http://127.0.0.1:4000/parliament';
+                    window.location.href = '/parliament';
                     break;
             }
         });
@@ -305,22 +305,22 @@ var TableManaged = function () {
             console.log('key', key);
             switch (key) {
                 case '006':
-                    window.location.href = 'http://127.0.0.1:4000/gazettedActs';
+                    window.location.href = '/gazettedActs';
                     break;
                 case '007':
-                    window.location.href = 'http://127.0.0.1:4000/govtAgreements';
+                    window.location.href = '/govtAgreements';
                     break;
                 case '008':
-                    window.location.href = 'http://127.0.0.1:4000/officialReports';
+                    window.location.href = '/officialReports';
                     break;
                 case '009':
-                    window.location.href = 'http://127.0.0.1:4000/committeesReports';
+                    window.location.href = '/committeesReports';
                     break;
                 case '011':
-                    window.location.href = 'http://127.0.0.1:4000/researchMaterials';
+                    window.location.href = '/researchMaterials';
                     break;
                 default:
-                    window.location.href = 'http://127.0.0.1:4000/downloads';
+                    window.location.href = '/downloads';
                     break;
             }
         });

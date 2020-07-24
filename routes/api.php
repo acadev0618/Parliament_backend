@@ -41,3 +41,12 @@ Route::post('searchResearchMaterials', 'API\APIController@searchResearchMaterial
 Route::get('aboutUs', 'API\APIController@aboutUs');
 Route::get('parliamentMembers', 'API\APIController@parliamentMembers');
 Route::post('searchParliamentMembers', 'API\APIController@searchParliamentMembers');
+Route::post('parliamentMember', 'API\APIController@parliamentMember');
+Route::get('parliamentChiefMembers', 'API\APIController@parliamentChiefMembers');
+Route::post('searchParliamentChiefMembers', 'API\APIController@searchParliamentChiefMembers');
+Route::post('parliamentChiefMember', 'API\APIController@parliamentChiefMember');
+Route::get('parliamentSpeaker', 'API\APIController@parliamentSpeaker');
+Route::get('parliamentDirectory', 'API\APIController@parliamentDirectory');
+Route::get('parliamentClerk', 'API\APIController@parliamentClerk');
+Route::get('parliamentCalendar', 'API\APIController@parliamentCalendar');
+Route::get('videoStreaming', 'API\APIController@videoStreaming');

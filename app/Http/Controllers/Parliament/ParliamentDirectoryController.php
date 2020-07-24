@@ -28,12 +28,12 @@ class ParliamentDirectoryController extends Controller {
         $photo = $request->file('image');
 
         if(empty($photo)) {
-            $photo_link = env('BASE_URL')."/assets/img/avatars/default_avatar.jpg";
+            $photo_link = "assets/img/avatars/default_avatar.jpg";
         } else {
             $photo_name = $photo->getClientOriginalName();
             $destinationPath = 'uploads';
             $photo->move($destinationPath,$photo_name);
-            $photo_link = env('BASE_URL')."/uploads/".$photo_name;
+            $photo_link = "uploads/".$photo_name;
         }
 
         $data = array(
@@ -76,11 +76,11 @@ class ParliamentDirectoryController extends Controller {
                 $photo_name = $photo->getClientOriginalName();
                 $destinationPath = 'uploads';
                 $photo->move($destinationPath,$photo_name);
-                $photo_link = env('BASE_URL')."/uploads/".$photo_name;
+                $photo_link = "uploads/".$photo_name;
                 $data += [ "image" => $photo_link ];
             }
         } else if($del_photo == "true") {
-            $photo_link = env('BASE_URL')."/assets/img/avatars/default_avatar.jpg";
+            $photo_link = "assets/img/avatars/default_avatar.jpg";
             $data += [ "image" => $photo_link ];
         }
 

@@ -11,7 +11,7 @@
  Target Server Version : 100411
  File Encoding         : 65001
 
- Date: 23/07/2020 22:45:18
+ Date: 24/07/2020 08:46:13
 */
 
 SET NAMES utf8mb4;
@@ -164,7 +164,7 @@ CREATE TABLE `members_parliament_chief`  (
 -- ----------------------------
 -- Records of members_parliament_chief
 -- ----------------------------
-INSERT INTO `members_parliament_chief` VALUES (1, 'Kang Bai Joe Macovery', 'Bo', 'Sourth', 'http://127.0.0.1:4000/uploads/avatar.png', '+235698562', 'macovery@info.com', 'description');
+INSERT INTO `members_parliament_chief` VALUES (1, 'Kang Bai Joe Macovery', 'Bo', 'Sourth', 'uploads/avatar.png', '+235698562', 'macovery@info.com', 'description');
 
 -- ----------------------------
 -- Table structure for parliament_calendar
@@ -203,7 +203,7 @@ CREATE TABLE `parliament_clerk`  (
 -- ----------------------------
 -- Records of parliament_clerk
 -- ----------------------------
-INSERT INTO `parliament_clerk` VALUES (1, 'PARAN UMAR', 'description', 'http://127.0.0.1:4000/uploads/callcenter.png', 'education', 'experience', 'skills and trainings', 'activites and community service', '+693258147789', 'umar@clerk.com');
+INSERT INTO `parliament_clerk` VALUES (1, 'PARAN UMAR', 'description', 'uploads/callcenter.png', 'education', 'experience', 'skills and trainings', 'activites and community service', '+693258147789', 'umar@clerk.com');
 
 -- ----------------------------
 -- Table structure for parliament_directory
@@ -226,7 +226,7 @@ CREATE TABLE `parliament_directory`  (
 -- ----------------------------
 -- Records of parliament_directory
 -- ----------------------------
-INSERT INTO `parliament_directory` VALUES (4, 'Olgavin Enicovra', 'description', 'http://127.0.0.1:4000/uploads/avatar.png', 'education', 'experience', 'skills and trainings', 'activites and community service', '+5626895469', 'enicovra@directory.com');
+INSERT INTO `parliament_directory` VALUES (4, 'Olgavin Enicovra', 'description', 'uploads/avatar.png', 'education', 'experience', 'skills and trainings', 'activites and community service', '+5626895469', 'enicovra@directory.com');
 
 -- ----------------------------
 -- Table structure for parliament_speaker
@@ -250,7 +250,7 @@ CREATE TABLE `parliament_speaker`  (
 -- ----------------------------
 -- Records of parliament_speaker
 -- ----------------------------
-INSERT INTO `parliament_speaker` VALUES (1, 'MOMOR', 'description', 'early life', 'education', 'career', 'oppositoin to president', 'presidential campaign', '+5626895469', 'momor@speaker.com', 'http://127.0.0.1:4000/uploads/driver2.png');
+INSERT INTO `parliament_speaker` VALUES (1, 'MOMOR', 'description', 'early life', 'education', 'career', 'oppositoin to president', 'presidential campaign', '+5626895469', 'momor@speaker.com', 'uploads/driver2.png');
 
 -- ----------------------------
 -- Table structure for standing_order
