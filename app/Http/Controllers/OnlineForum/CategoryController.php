@@ -1,38 +1,34 @@
 <?php
 
-namespace App\Http\Controllers\Votes;
+namespace App\Http\Controllers\OnlineForum;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session;
 use DB;
 
-class VotesController extends Controller {
+class CategoryController extends Controller {
     
     public function index() {
         if(Session::get('display_name')) {
 
-            $data = DB::select('select * from votes', [1]);
-            return view('votes')->with(
+            $data = DB::select('select * from forum_category', [1]);
+            return view('forum.category')->with(
                 ['data' => $data,
-                'sliderAction' => 'votes', 
-                'subAction' => '']
+                'sliderAction' => 'onlineporum', 
+                'subAction' => 'category']
             );
         } else {
             return redirect('admin/');
         }
     }
 
-    public function updateVotes(Request $request) {
+    public function updateCategory(Request $request) {
         $id = array('id' => $request->id);
         $data = array(
-            'title' => $request->title,
-            'topics' => $request->topics,
-            'sum_yes' => $request->sum_yes,
-            'sum_no' => $request->sum_no,
-            'sum_not_sure' => $request->sum_not_sure
+            'title' => $request->title
         );
-        $result = DB::table('votes')
+        $result = DB::table('forum_category')
                 ->where($id)
                 ->update($data);
         if ($result == 1) {
@@ -40,25 +36,45 @@ class VotesController extends Controller {
         }
     }
 
-    public function createVotes(Request $request) {
+    public function createCategory(Request $request) {
         $data = array(
-            'title' => $request->title,
-            'topics' => $request->topics
+            'title' => $request->title
         );
 
-        $result = DB::table('votes')->insert($data);
+        $result = DB::table('forum_category')->insert($data);
 
         if($result) {
             return back();
         }
     }
 
-    public function deleteVotes(Request $request) {
+    public function createSubcategory(Request $request) {
+        $data = array(
+            'title' => $request->title,
+            'parent_id' => $request->parent_id
+        );
+
+        $result = DB::table('forum_category')->insert($data);
+
+        if($result) {
+            return back();
+        }
+    }
+
+    public function deleteCategory(Request $request) {
         $id = array(
             'id' => $request->id
         );
+        $parent_id = array(
+            'parent_id' => $request->id
+        );
 
-        $result = DB::table('votes')->where($id)->delete();
+        $category = DB::select('select * from forum_category where id = '.$request->id, [1]);
+        
+        $result = DB::table('forum_category')->where($id)->delete();
+        if($category[0]->parent_id == 0) {
+            DB::table('forum_category')->where($parent_id)->delete();
+        }
 
         if($result == 1) {
             $notification = array(
@@ -74,15 +90,19 @@ class VotesController extends Controller {
         return back()->with($notification);
     }
 
-    public function multiDeleteVotes(Request $request) {
+    public function multiDeleteCategory(Request $request) {
         $ids = $request->ids;
         $ids = explode(',', $ids);
         $result = 0;
 
         for($i = 0; $i < count($ids); $i ++) {
 
-            $result = DB::table('votes')->where('id', '=', $ids[$i])->delete();
+            $category = DB::select('select * from forum_category where id = '.$ids[$i], [1]);
+            $result = DB::table('forum_category')->where('id', '=', $ids[$i])->delete();
             $result++;
+            if($category[0]->parent_id == 0) {
+                DB::table('forum_category')->where('parent_id', '=', $ids[$i])->delete();
+            }
         }
 
         if($result == count($ids)) {

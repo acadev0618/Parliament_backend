@@ -40,7 +40,7 @@ class APIController extends Controller
 
     public function votes()
     {
-        $votes_list = DB::select('select id, title from votes');
+        $votes_list = DB::select('select * from votes');
         if(!$votes_list) {
             return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
         } else {
@@ -48,13 +48,48 @@ class APIController extends Controller
         }
     }
 
-    public function votesTopics(Request $request) {
-        $data = DB::select('select topics from votes where id = '.$request->id, [1]);
+    public function vote(Request $request) {
+        $id = array('id' => $request->id);
+        $current_vote = DB::select('select * from votes where id = '.$request->id);
+        if ($request->vote_type == 0) {
+            $data = array(
+                'sum_yes' => $current_vote[0]->sum_yes+1
+            );
+        }
+        if ($request->vote_type == 1) {
+            $data = array(
+                'sum_no' => $current_vote[0]->sum_no+1
+            );
+        }
+        if ($request->vote_type == 2) {
+            $data = array(
+                'sum_not_sure' => $current_vote[0]->sum_not_sure+1
+            );
+        }
+        if ($request->vote_type == -1) {
+            $data = array(
+                'sum_not_sure' => $current_vote[0]->sum_not_sure
+            );
+        }
+        $result = DB::table('votes')
+                ->where($id)
+                ->update($data);
         
-        if(!$data) {
+        if($result != 1) {
             return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
         } else {
             return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $data]);
+        }
+    }
+
+    public function voteResult(Request $request) {
+        $id = array('id' => $request->id);
+        $votes_list = DB::select('select * from votes where id = '.$request->id);
+        
+        if(!$votes_list) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $votes_list]);
         }
     }
 

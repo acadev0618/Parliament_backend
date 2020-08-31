@@ -47,12 +47,70 @@
             @else
             <li>
             @endif
-                {{-- <a href="{{ asset('/onlineporum') }}" class="active"> --}}
-                <a href="" class="active">
+                <a href="javascript:;">
                     <i class="icon-briefcase"></i>
                     <span class="title">Online Porum</span>
+                    <span class="arrow"></span>
                     <span class="selected"></span>
                 </a>
+                <ul class="sub-menu manage_ul">
+                    @if($subAction == "category")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/forum/category') }}">Category</a>
+                    </li>
+                    
+                    @if($subAction == "type")
+                    <li class="active">
+                    @else
+                    <li>    
+                    @endif
+                        <a href="{{ asset('/forum/type') }}">Type</a>
+                    </li>
+                    
+                    @if($subAction == "thread")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/forum/thread') }}">Thread</a>
+                    </li>
+
+                    @if($subAction == "reply")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/forum/reply') }}">Reply</a>
+                    </li>
+
+                    @if($subAction == "members")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/forum/members') }}">Members</a>
+                    </li>
+
+                    @if($subAction == "subscription")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/forum/subscription') }}">Subscription</a>
+                    </li>
+
+                    @if($subAction == "visitSite")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        {{-- <a href="{{ asset('/forum/visitSite') }}">Visit Site</a> --}}
+                        <a>Visit Site</a>
+                    </li>
+                </ul>
             </li>
 
             @if($sliderAction == "votes")

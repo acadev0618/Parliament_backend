@@ -43,6 +43,18 @@
                                         <th>
                                             Topics
                                         </th>
+                                        <th>
+                                            Votes(Yes)
+                                        </th>
+                                        <th>
+                                            Votes(No)
+                                        </th>
+                                        <th>
+                                            Votes(Not Sure)
+                                        </th>
+                                        <th>
+                                            Total Votes
+                                        </th>
                                         <th style="width: 6%;">
                                             Actions
                                         </th>
@@ -63,15 +75,27 @@
                                             {{ $votes->title }}
                                         </td>
                                         <td>
-                                            @if (strlen($votes->topics) > 150)
-                                                {{ substr($votes->topics, 0, 150) }}...
+                                            @if (strlen($votes->topics) > 100)
+                                                {{ substr($votes->topics, 0, 100) }}...
                                             @else
                                                 {{ $votes->topics }}
                                             @endif
                                         </td>
+                                        <td id="election">
+                                            {{ $votes->sum_yes }}
+                                        </td>
+                                        <td id="election">
+                                            {{ $votes->sum_no }}
+                                        </td>
+                                        <td id="election">
+                                            {{ $votes->sum_not_sure }}
+                                        </td>
+                                        <td id="election">
+                                            {{ $votes->sum_yes + $votes->sum_no + $votes->sum_not_sure }}
+                                        </td>
                                         <td>
-                                            <a class="previewVotesModal" data-id="{{ $votes->id }}" data-title="{{ $votes->title }}" data-topics="{{ $votes->topics }}" data-toggle="modal"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
-                                            <a class="editVotesModal" data-id="{{ $votes->id }}" data-title="{{ $votes->title }}" data-topics="{{ $votes->topics }}" data-toggle="modal"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                                            <a class="previewVotesModal" data-id="{{ $votes->id }}" data-title="{{ $votes->title }}" data-topics="{{ $votes->topics }}" data-yes="{{ $votes->sum_yes }}" data-no="{{ $votes->sum_no }}" data-notsure="{{ $votes->sum_not_sure }}" data-toggle="modal"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
+                                            <a class="editVotesModal" data-id="{{ $votes->id }}" data-title="{{ $votes->title }}" data-topics="{{ $votes->topics }}" data-yes="{{ $votes->sum_yes }}" data-no="{{ $votes->sum_no }}" data-notsure="{{ $votes->sum_not_sure }}" data-toggle="modal"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                                             <a class="deleteVotesModal" data-id="{{ $votes->id }}" data-toggle="modal"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
                                         </td>
                                     </tr>
@@ -111,6 +135,26 @@
                     {{-- <input type="text" class="form-control" id="previewTopics" name="topics" readonly autofocus> --}}
                     <textarea class="form-control" rows="10" id="previewTopics" name="topics" readonly autofocus></textarea>
                 </div>
+            </div>
+            <div class="form-group">
+				<div class="col-sm-4">
+					<label class="label_des col-sm-3" for="title">Yes:</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="prev_yes" readonly>
+					</div>
+                </div>
+                <div class="col-sm-4">
+					<label class="label_des col-sm-3" for="title">No:</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="prev_no" readonly>
+					</div>
+                </div>
+                <div class="col-sm-4">
+					<label class="label_des col-sm-3" for="title">Not Sure:</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="prev_not_sure" readonly>
+					</div>
+				</div>
             </div>
 
             <div class="modal-footer">
@@ -230,6 +274,27 @@
                 <div class="col-sm-9">
                     {{-- <input type="text" class="form-control" id="editTopics" name="topics" required> --}}
                     <textarea class="form-control" rows="10" id="editTopics" name="topics" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Yes:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="editYes" name="sum_yes" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">No:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="editNo" name="sum_no" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Not Sure:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="editNotSure" name="sum_not_sure" required>
                 </div>
             </div>
 

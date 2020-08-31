@@ -1,22 +1,16 @@
 <?php
 ////////////////////////////////////  Authentication Urls   //////////////////////////////////////
-Route::get('/', 'Client\ClientController@ballot')->name('client.ballot');
-Route::get('client/', 'Client\ClientController@index')->name('client.index');
-Route::post('client/sendpincode', 'Client\ClientController@sendpincode')->name('client.sendpincode');
-
-Route::group(['middleware' => 'client', 'prefix'=>'client', 'namespace'=>'Client'], function () {
-    Route::get('/viewcand', 'ClientController@viewcand')->name('client.viewcand');
-    Route::get('/lang', 'ClientController@lang')->name('client.lang');
-    Route::get('/race', 'ClientController@race')->name('client.race');
-    Route::get('/prop', 'ClientController@prop')->name('client.prop');
-    Route::post('/propcount', 'ClientController@propcount')->name('client.propcount');
-    Route::get('/mass', 'ClientController@mass')->name('client.mass');
-    Route::post('/masscount', 'ClientController@masscount')->name('client.masscount');
-    Route::get('/review', 'ClientController@review')->name('client.review');
-    Route::post('/racecount', 'ClientController@racecount')->name('client.racecount');
-    Route::post('/racedecount', 'ClientController@racedecount')->name('client.racedecount');
-    Route::post('/cast', 'ClientController@cast')->name('client.cast');
+// Route::get('/', 'Client\ClientController@ballot')->name('client.ballot');
+Route::get('/', function() {
+    return redirect('admin/');
 });
+
+Route::prefix('/onlineforum')->group(function() {
+    Route::get('/', 'ForumClient\HomeController@index')->name('onlineforum');
+});
+
+// ================ Admin Panel URLS =====================
+
 Route::get('admin/', 'AuthController@login')->name('request');
 
 Route::get('/forgotPassword', 'AuthController@forgotPassword')->name('request');
@@ -148,4 +142,49 @@ Route::post('/createVideoStreaming', 'VideoStreaming\VideoStreamingController@cr
 Route::post('/updateVideoStreaming', 'VideoStreaming\VideoStreamingController@updateVideoStreaming')->name('request');
 Route::post('/deleteVideoStreaming', 'VideoStreaming\VideoStreamingController@deleteVideoStreaming')->name('request');
 Route::post('/multiDeleteVideoStreaming', 'VideoStreaming\VideoStreamingController@multiDeleteVideoStreaming')->name('request');
+
+////////////////////////////////////  Online Forum Urls   /////////////////////////////////////////
+Route::prefix('/forum')->group(function() {
+
+    // ------------------- Category Urls --------------------------
+    Route::get('/category', 'OnlineForum\CategoryController@index')->name('request');
+    Route::post('/createCategory', 'OnlineForum\CategoryController@createCategory')->name('request');
+    Route::post('/createSubcategory', 'OnlineForum\CategoryController@createSubcategory')->name('request');
+    Route::post('/updateCategory', 'OnlineForum\CategoryController@updateCategory')->name('request');
+    Route::post('/deleteCategory', 'OnlineForum\CategoryController@deleteCategory')->name('request');
+    Route::post('/multiDeleteCategory', 'OnlineForum\CategoryController@multiDeleteCategory')->name('request');
+
+    // ------------------- Type Urls --------------------------
+    Route::get('/type', 'OnlineForum\TypeController@index')->name('request');
+    Route::post('/createType', 'OnlineForum\TypeController@createType')->name('request');
+    Route::post('/createSubType', 'OnlineForum\TypeController@createSubType')->name('request');
+    Route::post('/updateType', 'OnlineForum\TypeController@updateType')->name('request');
+    Route::post('/deleteType', 'OnlineForum\TypeController@deleteType')->name('request');
+    Route::post('/multiDeleteType', 'OnlineForum\TypeController@multiDeleteType')->name('request');
+
+    // ------------------- Members Urls --------------------------
+    Route::get('/members', 'OnlineForum\MembersController@index')->name('request');
+    Route::get('/getSubscription', 'OnlineForum\MembersController@getSubscription')->name('request');
+    Route::post('/createMembers', 'OnlineForum\MembersController@createMembers')->name('request');
+    Route::post('/createSubMembers', 'OnlineForum\MembersController@createSubMembers')->name('request');
+    Route::post('/updateMembers', 'OnlineForum\MembersController@updateMembers')->name('request');
+    Route::post('/deleteMembers', 'OnlineForum\MembersController@deleteMembers')->name('request');
+    Route::post('/multiDeleteMembers', 'OnlineForum\MembersController@multiDeleteMembers')->name('request');
+    
+    // ------------------- Subscription Urls --------------------------
+    Route::get('/subscription', 'OnlineForum\SubscriptionController@index')->name('request');
+    Route::post('/createSubscription', 'OnlineForum\SubscriptionController@createSubscription')->name('request');
+    Route::post('/createSubSubscription', 'OnlineForum\SubscriptionController@createSubSubscription')->name('request');
+    Route::post('/updateSubscription', 'OnlineForum\SubscriptionController@updateSubscription')->name('request');
+    Route::post('/deleteSubscription', 'OnlineForum\SubscriptionController@deleteSubscription')->name('request');
+    Route::post('/multiDeleteSubscription', 'OnlineForum\SubscriptionController@multiDeleteSubscription')->name('request');
+
+    // ------------------- Thread Urls --------------------------
+    Route::get('/thread', 'OnlineForum\ThreadController@index')->name('request');
+    Route::post('/createThread', 'OnlineForum\ThreadController@createThread')->name('request');
+    Route::post('/createSubThread', 'OnlineForum\ThreadController@createSubThread')->name('request');
+    Route::post('/updateThread', 'OnlineForum\ThreadController@updateThread')->name('request');
+    Route::post('/deleteThread', 'OnlineForum\ThreadController@deleteThread')->name('request');
+    Route::post('/multiDeleteThread', 'OnlineForum\ThreadController@multiDeleteThread')->name('request');
+});
 

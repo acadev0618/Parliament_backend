@@ -11,7 +11,7 @@
  Target Server Version : 100411
  File Encoding         : 65001
 
- Date: 24/07/2020 14:37:00
+ Date: 29/08/2020 08:36:23
 */
 
 SET NAMES utf8mb4;
@@ -26,7 +26,7 @@ CREATE TABLE `about_us`  (
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `description` varchar(20000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of about_us
@@ -83,6 +83,141 @@ INSERT INTO `downloads` VALUES (23, 'State Opening2', 'uploads/downloads/Changes
 INSERT INTO `downloads` VALUES (24, 'Taxe contents', 'uploads/downloads/Changes part.pdf', 6, 'Changes part.pdf');
 INSERT INTO `downloads` VALUES (25, 'Forum State', 'uploads/downloads/Changes part.pdf', 6, 'Changes part.pdf');
 INSERT INTO `downloads` VALUES (26, 'other doc', 'uploads/downloads/Assignment.pdf', 6, 'Assignment.pdf');
+
+-- ----------------------------
+-- Table structure for forum_category
+-- ----------------------------
+DROP TABLE IF EXISTS `forum_category`;
+CREATE TABLE `forum_category`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `parent_id` int(10) NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of forum_category
+-- ----------------------------
+INSERT INTO `forum_category` VALUES (14, 'General', 0);
+INSERT INTO `forum_category` VALUES (15, 'Staff directory', 0);
+INSERT INTO `forum_category` VALUES (16, 'STAFF', 0);
+INSERT INTO `forum_category` VALUES (17, 'Budget', 0);
+INSERT INTO `forum_category` VALUES (18, 'MP\'s FORUM', 0);
+INSERT INTO `forum_category` VALUES (19, 'Public Budget', 14);
+INSERT INTO `forum_category` VALUES (20, 'Committee', 14);
+INSERT INTO `forum_category` VALUES (21, 'Audit', 14);
+INSERT INTO `forum_category` VALUES (22, 'Audit', 15);
+INSERT INTO `forum_category` VALUES (23, 'Audit', 16);
+INSERT INTO `forum_category` VALUES (24, 'Audit', 17);
+INSERT INTO `forum_category` VALUES (25, 'Audit', 18);
+
+-- ----------------------------
+-- Table structure for forum_reply
+-- ----------------------------
+DROP TABLE IF EXISTS `forum_reply`;
+CREATE TABLE `forum_reply`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `thread` int(10) NULL DEFAULT NULL,
+  `contents` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `user` int(10) NULL DEFAULT NULL,
+  `up_vote` int(1) NULL DEFAULT 0,
+  `down_vote` int(1) NULL DEFAULT 0,
+  `created_date` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for forum_subscription
+-- ----------------------------
+DROP TABLE IF EXISTS `forum_subscription`;
+CREATE TABLE `forum_subscription`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of forum_subscription
+-- ----------------------------
+INSERT INTO `forum_subscription` VALUES (1, 'Daily Digest');
+INSERT INTO `forum_subscription` VALUES (2, 'Weekly Digest');
+INSERT INTO `forum_subscription` VALUES (3, 'Monthly Digest');
+INSERT INTO `forum_subscription` VALUES (4, 'Individual Emails (No Recommended)');
+INSERT INTO `forum_subscription` VALUES (5, 'Unsubscribe (No Emails)');
+
+-- ----------------------------
+-- Table structure for forum_thread
+-- ----------------------------
+DROP TABLE IF EXISTS `forum_thread`;
+CREATE TABLE `forum_thread`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `contents` varchar(4000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `category` int(10) NULL DEFAULT NULL,
+  `sub_category` int(10) NULL DEFAULT NULL,
+  `type` int(10) NULL DEFAULT NULL,
+  `user` int(10) NULL DEFAULT NULL,
+  `created_date` datetime(0) NULL DEFAULT NULL,
+  `latest_reply_date` datetime(0) NULL DEFAULT NULL,
+  `view` int(100) NULL DEFAULT 0,
+  `reply` int(100) NULL DEFAULT 0,
+  `complain` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `complain_user` int(10) NULL DEFAULT NULL,
+  `up_vote` int(100) NULL DEFAULT 0,
+  `down_vote` int(100) NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for forum_type
+-- ----------------------------
+DROP TABLE IF EXISTS `forum_type`;
+CREATE TABLE `forum_type`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of forum_type
+-- ----------------------------
+INSERT INTO `forum_type` VALUES (1, 'Every one');
+INSERT INTO `forum_type` VALUES (2, 'Members');
+INSERT INTO `forum_type` VALUES (3, 'Admin, Moderators and me');
+
+-- ----------------------------
+-- Table structure for forum_users
+-- ----------------------------
+DROP TABLE IF EXISTS `forum_users`;
+CREATE TABLE `forum_users`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `last_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `created_date` datetime(0) NULL DEFAULT NULL,
+  `last_visit_date` datetime(0) NULL DEFAULT NULL,
+  `is_login` int(1) NULL DEFAULT 0,
+  `photo` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `birthday` date NULL DEFAULT NULL,
+  `gender` int(1) NULL DEFAULT NULL,
+  `subscription` int(10) NULL DEFAULT NULL,
+  `msg_accept` int(1) NULL DEFAULT NULL,
+  `key` int(10) NULL DEFAULT 0,
+  `verification` int(1) NULL DEFAULT 0,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `unique_email`(`email`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of forum_users
+-- ----------------------------
+INSERT INTO `forum_users` VALUES (1, NULL, NULL, NULL, 'info@mazad.om', 'ddd', '2020-07-31 16:49:36', NULL, 0, NULL, NULL, '2020-07-29', 0, 1, 0, 0, 0);
+INSERT INTO `forum_users` VALUES (2, NULL, NULL, 'blackimps', 'admin@demo.com', 'ddd', '2020-07-31 17:05:11', NULL, 0, 'uploads/avatar.png', NULL, '2020-06-09', 0, 1, 0, 0, 0);
+INSERT INTO `forum_users` VALUES (3, NULL, NULL, NULL, 'manager@demo.com', 'ddd', '2020-07-31 17:07:21', NULL, 0, '/forum/uploads/avatar.png', NULL, NULL, 0, 1, 0, 0, 0);
+INSERT INTO `forum_users` VALUES (4, NULL, NULL, NULL, 'info@fmazad.om', 'ddd', '2020-07-31 17:08:26', NULL, 0, '/forum/uploads/avatar.png', NULL, NULL, 0, 1, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for hometable
@@ -323,14 +458,18 @@ CREATE TABLE `votes`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `topics` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `sum_yes` int(100) NULL DEFAULT 0,
+  `sum_no` int(100) NULL DEFAULT 0,
+  `sum_not_sure` int(100) NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of votes
 -- ----------------------------
-INSERT INTO `votes` VALUES (1, 'Vote 1', 'Being interested in a topic is great, but it is even more helpful if you already know something about it. If you can find a topic that you already have some personal and/or professional experience with, it will vastly reduce the amount of research needed and make the whole process much easier.');
-INSERT INTO `votes` VALUES (4, 'Vote2', 'An interesting topic to you may not necessarily be interesting to your professor or whoever is grading your research paper. Before you begin, consider the level of interest of the person(s) who will be reading it. If you are writing a persuasive or argumentative essay, also consider their point of view on the subject matter.');
-INSERT INTO `votes` VALUES (5, 'About parliament', 'An interesting topic to you may not necessarily be interesting to your professor or whoever is grading your research paper. Before you begin, consider the level of interest of the person(s) who will be reading it. If you are writing a persuasive or argumentative essay, also consider their point of view on the subject matter.  As you begin researching your topic, you may want to revise your thesis statement based on new information you have learned. This is perfectly fine, just have fun and pursue the truth, wherever it leads. If you find that you are not having fun during the research phase, you may want to reconsider the topic you have chosen.');
+INSERT INTO `votes` VALUES (1, 'The National Assembly Poll', 'Has CDF made a positive impact on your constituency?', 1357, 264, 996);
+INSERT INTO `votes` VALUES (4, 'Vote2', 'An interesting topic to you may not necessarily be interesting to your professor or whoever is grading your research paper. Before you begin, consider the level of interest of the person(s) who will be reading it. If you are writing a persuasive or argumentative essay, also consider their point of view on the subject matter.', 2631, 1203, 1652);
+INSERT INTO `votes` VALUES (5, 'About parliament', 'An interesting topic to you may not necessarily be interesting to your professor or whoever is grading your research paper. Before you begin, consider the level of interest of the person(s) who will be reading it. If you are writing a persuasive or argumentative essay, also consider their point of view on the subject matter.  As you begin researching your topic, you may want to revise your thesis statement based on new information you have learned. This is perfectly fine, just have fun and pursue the truth, wherever it leads. If you find that you are not having fun during the research phase, you may want to reconsider the topic you have chosen.', 225, 359, 562);
+INSERT INTO `votes` VALUES (6, 'Vote3', 'topics3', 3, 1, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;

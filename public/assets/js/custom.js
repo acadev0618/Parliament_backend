@@ -392,6 +392,9 @@ var TableManaged = function () {
             var modal = $('#previewVotesModal');
             $('#previewTitle').val($(this).data('title'));
             $('#previewTopics').val($(this).data('topics'));
+            $('#prev_yes').val($(this).data('yes'));
+            $('#prev_no').val($(this).data('no'));
+            $('#prev_not_sure').val($(this).data('notsure'));
             modal.modal('show');
         });
 
@@ -410,6 +413,9 @@ var TableManaged = function () {
             var modal = $('#editVotesModal');
             $('#editTitle').val($(this).data('title'));
             $('#editTopics').val($(this).data('topics'));
+            $('#editYes').val($(this).data('yes'));
+            $('#editNo').val($(this).data('no'));
+            $('#editNotSure').val($(this).data('notsure'));
             modal.find('#edit_id').val(id);
             modal.modal('show');
         });
@@ -2414,6 +2420,578 @@ var TableManaged = function () {
         });
     }
 
+    // Online Forum
+    var forumcategoryTable = function () {
+
+        var table = $('#forum_category_table');
+        table.dataTable({
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "Show _MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "language": {
+                "lengthMenu": " _MENU_ records"
+            },
+            "columnDefs": [{  // set default column settings
+                'orderable': false,
+                'targets': [0]
+            }, {
+                "searchable": false,
+                "targets": [0]
+            }],
+            "order": [
+                [1, "asc"]
+            ] // set first column as a default sort by asc
+        });
+
+        table.on('click', '.addSubcategoryModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#addSubcategoryModal');
+
+            modal.find('.parent_id').val(id);
+            modal.modal('show');
+        });
+
+        table.on('click', '.deleteCategoryModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#deleteCategoryModal');
+
+            modal.find('.id').val(id);
+            modal.modal('show');
+        });
+
+        table.on('click', '.editcategoryModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#editcategoryModal');
+            $('#editTitle').val($(this).data('title'));
+            modal.find('#edit_id').val(id);
+            modal.modal('show');
+        });
+
+        table.find('.group-checkable').change(function () {
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                } else {
+                    $(this).attr("checked", false);
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $(document).on('click', '.deletecategoriesModal', function(){
+            var modal = $('#deletecategoriesModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var ids = allVals.join(",");
+
+                modal.find('.ids').val(ids);
+            }
+        });
+    }
+
+    var forumtypeTable = function () {
+
+        var table = $('#forum_type_table');
+        table.dataTable({
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "Show _MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "language": {
+                "lengthMenu": " _MENU_ records"
+            },
+            "columnDefs": [{  // set default column settings
+                'orderable': false,
+                'targets': [0]
+            }, {
+                "searchable": false,
+                "targets": [0]
+            }],
+            "order": [
+                [1, "asc"]
+            ] // set first column as a default sort by asc
+        });
+
+        table.on('click', '.deleteTypeModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#deleteTypeModal');
+
+            modal.find('.id').val(id);
+            modal.modal('show');
+        });
+
+        table.on('click', '.editaTypeModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#editaTypeModal');
+            $('#editTitle').val($(this).data('title'));
+            modal.find('#edit_id').val(id);
+            modal.modal('show');
+        });
+
+        table.find('.group-checkable').change(function () {
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                } else {
+                    $(this).attr("checked", false);
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $(document).on('click', '.deleteTypesModal', function(){
+            var modal = $('#deleteTypesModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var ids = allVals.join(",");
+
+                modal.find('.ids').val(ids);
+            }
+        });
+    }
+
+    var forumsubscriptionTable = function () {
+
+        var table = $('#forum_subscription_table');
+        table.dataTable({
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "Show _MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "language": {
+                "lengthMenu": " _MENU_ records"
+            },
+            "columnDefs": [{  // set default column settings
+                'orderable': false,
+                'targets': [0]
+            }, {
+                "searchable": false,
+                "targets": [0]
+            }],
+            "order": [
+                [1, "asc"]
+            ] // set first column as a default sort by asc
+        });
+
+        table.on('click', '.deleteSubscriptionModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#deleteSubscriptionModal');
+
+            modal.find('.id').val(id);
+            modal.modal('show');
+        });
+
+        table.on('click', '.editSubscriptionModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#editSubscriptionModal');
+            $('#editTitle').val($(this).data('title'));
+            modal.find('#edit_id').val(id);
+            modal.modal('show');
+        });
+
+        table.find('.group-checkable').change(function () {
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                } else {
+                    $(this).attr("checked", false);
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $(document).on('click', '.deleteSubscriptionsModal', function(){
+            var modal = $('#deleteSubscriptionsModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var ids = allVals.join(",");
+
+                modal.find('.ids').val(ids);
+            }
+        });
+    }
+
+    var forummembersTable = function () {
+
+        var table = $('#forum_members_table');
+        table.dataTable({
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "Show _MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "language": {
+                "lengthMenu": " _MENU_ records"
+            },
+            "columnDefs": [{  // set default column settings
+                'orderable': false,
+                'targets': [0]
+            }, {
+                "searchable": false,
+                "targets": [0]
+            }],
+            "order": [
+                [1, "asc"]
+            ] // set first column as a default sort by asc
+        });
+
+        $(document).on('click', '.addMemberModal', function(){
+            var modal = $('#addMemberModal');
+            console.log('sdfsdfs');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/forum/getSubscription',
+                type: 'GET',
+                success: function(response) {
+                    var result = jQuery.parseJSON(response);
+                    var html = "";
+                    for(var i=0; i<result.success.length; i++) {
+                        html += "<option value='"+ result.success[i]['id'] +"'>"+ result.success[i]['title'] +"</opiton>";
+                    }
+                    $('#add_subscription').html(html);
+                    var currentdate = new Date();
+                    var datetime = currentdate.getFullYear() + "-"
+                        + (currentdate.getMonth()+1)  + "-" 
+                        + currentdate.getDate() + " "  
+                        + currentdate.getHours() + ":"  
+                        + currentdate.getMinutes() + ":" 
+                        + currentdate.getSeconds();
+                        console.log(datetime);
+                    $('#current_date').val(datetime);
+                    modal.modal('show');
+                }
+            });
+            // modal.modal('show');
+        });
+
+        table.on('click', '.deleteSubscriptionModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#deleteSubscriptionModal');
+
+            modal.find('.id').val(id);
+            modal.modal('show');
+        });
+
+        table.on('click', '.editSubscriptionModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#editSubscriptionModal');
+            $('#editTitle').val($(this).data('title'));
+            modal.find('#edit_id').val(id);
+            modal.modal('show');
+        });
+
+        table.find('.group-checkable').change(function () {
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                } else {
+                    $(this).attr("checked", false);
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $(document).on('click', '.deleteSubscriptionsModal', function(){
+            var modal = $('#deleteSubscriptionsModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var ids = allVals.join(",");
+
+                modal.find('.ids').val(ids);
+            }
+        });
+    }
+
+    var forumthreadTable = function () {
+
+        var table = $('#forum_thread_table');
+        table.dataTable({
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "Show _MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "language": {
+                "lengthMenu": " _MENU_ records"
+            },
+            "columnDefs": [{  // set default column settings
+                'orderable': false,
+                'targets': [0]
+            }, {
+                "searchable": false,
+                "targets": [0]
+            }],
+            "order": [
+                [1, "asc"]
+            ] // set first column as a default sort by asc
+        });
+
+        $(document).on('click', '.addMemberModal', function(){
+            var modal = $('#addMemberModal');
+            console.log('sdfsdfs');
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '/forum/getSubscription',
+                type: 'GET',
+                success: function(response) {
+                    var result = jQuery.parseJSON(response);
+                    var html = "";
+                    for(var i=0; i<result.success.length; i++) {
+                        html += "<option value='"+ result.success[i]['id'] +"'>"+ result.success[i]['title'] +"</opiton>";
+                    }
+                    $('#add_subscription').html(html);
+                    var currentdate = new Date();
+                    var datetime = currentdate.getFullYear() + "-"
+                        + (currentdate.getMonth()+1)  + "-" 
+                        + currentdate.getDate() + " "  
+                        + currentdate.getHours() + ":"  
+                        + currentdate.getMinutes() + ":" 
+                        + currentdate.getSeconds();
+                        console.log(datetime);
+                    $('#current_date').val(datetime);
+                    modal.modal('show');
+                }
+            });
+            // modal.modal('show');
+        });
+
+        table.on('click', '.deleteSubscriptionModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#deleteSubscriptionModal');
+
+            modal.find('.id').val(id);
+            modal.modal('show');
+        });
+
+        table.on('click', '.editSubscriptionModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#editSubscriptionModal');
+            $('#editTitle').val($(this).data('title'));
+            modal.find('#edit_id').val(id);
+            modal.modal('show');
+        });
+
+        table.find('.group-checkable').change(function () {
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                } else {
+                    $(this).attr("checked", false);
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $(document).on('click', '.deleteSubscriptionsModal', function(){
+            var modal = $('#deleteSubscriptionsModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var ids = allVals.join(",");
+
+                modal.find('.ids').val(ids);
+            }
+        });
+    }
+
     return {
         init: function () {
             if (!jQuery().dataTable) {
@@ -2442,6 +3020,11 @@ var TableManaged = function () {
             officialreportsTable();
             committeesreportsTable();
             researchmaterialsTable();
+            forumcategoryTable();
+            forumtypeTable();
+            forumsubscriptionTable();
+            forummembersTable();
+            forumthreadTable();
         }
     };
 }();

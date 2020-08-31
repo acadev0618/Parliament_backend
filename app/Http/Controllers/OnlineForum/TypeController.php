@@ -1,38 +1,34 @@
 <?php
 
-namespace App\Http\Controllers\Votes;
+namespace App\Http\Controllers\OnlineForum;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Session;
 use DB;
 
-class VotesController extends Controller {
+class TypeController extends Controller {
     
     public function index() {
         if(Session::get('display_name')) {
 
-            $data = DB::select('select * from votes', [1]);
-            return view('votes')->with(
+            $data = DB::select('select * from forum_type', [1]);
+            return view('forum.type')->with(
                 ['data' => $data,
-                'sliderAction' => 'votes', 
-                'subAction' => '']
+                'sliderAction' => 'onlineporum', 
+                'subAction' => 'type']
             );
         } else {
             return redirect('admin/');
         }
     }
 
-    public function updateVotes(Request $request) {
+    public function updateType(Request $request) {
         $id = array('id' => $request->id);
         $data = array(
-            'title' => $request->title,
-            'topics' => $request->topics,
-            'sum_yes' => $request->sum_yes,
-            'sum_no' => $request->sum_no,
-            'sum_not_sure' => $request->sum_not_sure
+            'title' => $request->title
         );
-        $result = DB::table('votes')
+        $result = DB::table('forum_type')
                 ->where($id)
                 ->update($data);
         if ($result == 1) {
@@ -40,25 +36,24 @@ class VotesController extends Controller {
         }
     }
 
-    public function createVotes(Request $request) {
+    public function createType(Request $request) {
         $data = array(
-            'title' => $request->title,
-            'topics' => $request->topics
+            'title' => $request->title
         );
 
-        $result = DB::table('votes')->insert($data);
+        $result = DB::table('forum_type')->insert($data);
 
         if($result) {
             return back();
         }
     }
 
-    public function deleteVotes(Request $request) {
+    public function deleteType(Request $request) {
         $id = array(
             'id' => $request->id
         );
 
-        $result = DB::table('votes')->where($id)->delete();
+        $result = DB::table('forum_type')->where($id)->delete();
 
         if($result == 1) {
             $notification = array(
@@ -74,14 +69,14 @@ class VotesController extends Controller {
         return back()->with($notification);
     }
 
-    public function multiDeleteVotes(Request $request) {
+    public function multiDeleteType(Request $request) {
         $ids = $request->ids;
         $ids = explode(',', $ids);
         $result = 0;
 
         for($i = 0; $i < count($ids); $i ++) {
 
-            $result = DB::table('votes')->where('id', '=', $ids[$i])->delete();
+            $result = DB::table('forum_type')->where('id', '=', $ids[$i])->delete();
             $result++;
         }
 
