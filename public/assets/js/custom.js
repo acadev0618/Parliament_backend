@@ -2901,35 +2901,53 @@ var TableManaged = function () {
             ] // set first column as a default sort by asc
         });
 
-        $(document).on('click', '.addMemberModal', function(){
-            var modal = $('#addMemberModal');
+        $(document).on('click', '.addThreadModal', function(){
+            var modal = $('#addThreadModal');
             console.log('sdfsdfs');
+            var currentdate = new Date();
+            var datetime = currentdate.getFullYear() + "-"
+                + (currentdate.getMonth()+1)  + "-" 
+                + currentdate.getDate() + " "  
+                + currentdate.getHours() + ":"  
+                + currentdate.getMinutes() + ":" 
+                + currentdate.getSeconds();
+                console.log(datetime);
+            $('#current_date').val(datetime);
+            modal.modal('show');
+        });
+
+        $('#add_category').on('change', e => {
+            console.log($('#add_category').val());
+            $('#add_subcategory').empty();
             $.ajax({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                url: '/forum/getSubscription',
-                type: 'GET',
+                url: '/forum/getSubcategory',
+                type: 'POST',
+                data: {
+                    parent_id: $('#add_category').val()
+                },
                 success: function(response) {
                     var result = jQuery.parseJSON(response);
-                    var html = "";
+                    var html = "<option></option>";
                     for(var i=0; i<result.success.length; i++) {
                         html += "<option value='"+ result.success[i]['id'] +"'>"+ result.success[i]['title'] +"</opiton>";
                     }
-                    $('#add_subscription').html(html);
-                    var currentdate = new Date();
-                    var datetime = currentdate.getFullYear() + "-"
-                        + (currentdate.getMonth()+1)  + "-" 
-                        + currentdate.getDate() + " "  
-                        + currentdate.getHours() + ":"  
-                        + currentdate.getMinutes() + ":" 
-                        + currentdate.getSeconds();
-                        console.log(datetime);
-                    $('#current_date').val(datetime);
-                    modal.modal('show');
+                    $('#add_subcategory').html(html);
                 }
             });
-            // modal.modal('show');
+        });
+
+        table.on('click', '.previewThreadModal', function(){
+
+            var modal = $('#previewThreadModal');
+            $('#previewTitle').val($(this).data('title'));
+            $('#previewContents').val($(this).data('contents'));
+            // $('#prev_yes').val($(this).data('yes'));
+            // $('#prev_no').val($(this).data('no'));
+            // $('#prev_not_sure').val($(this).data('notsure'));
+            modal.modal('show');
         });
 
         table.on('click', '.deleteSubscriptionModal', function(){

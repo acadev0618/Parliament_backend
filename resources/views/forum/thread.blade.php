@@ -23,7 +23,7 @@
 								</div>
 								<div class="col-md-6">
 									<div class="btn-group ballot-actions">
-										<button class="btn btn-primary addThreadModal" data-toggle="modal"><i class="fa fa-plus-circle"></i> <span>  Add Thread</span></button>
+										<button href="#addThreadModal" class="btn btn-primary addThreadModal" data-toggle="modal"><i class="fa fa-plus-circle"></i> <span>  Add Thread</span></button>
 										<button class="btn btn-danger deleteSubscriptionsModal" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-minus-circle"></i> <span>  Delete Thread</span></button>
 									</div>
 								</div>
@@ -81,6 +81,9 @@
                                         <th>
                                             Down Vote
                                         </th>
+                                        <th>
+                                            Active Status
+                                        </th>
                                         <th style="width: 6%;">
                                             Actions
                                         </th>
@@ -101,7 +104,11 @@
                                             {{ $thread_list->title }}
                                         </td>
                                         <td>
-                                            {{ $thread_list->contents }}
+                                            @if (strlen($thread_list->contents) > 50)
+                                                {{ substr($thread_list->contents, 0, 50) }}...
+                                            @else
+                                                {{ $thread_list->contents }}
+                                            @endif
                                         </td>
                                         <td>
                                             {{ $thread_list->category }}
@@ -140,7 +147,14 @@
                                             {{ $thread_list->down_vote }}
                                         </td>
                                         <td>
-                                            <a class="previewAboutUsModal" data-id="{{ $thread_list->id }}" data-title="{{ $thread_list->title }}" data-contents="{{ $thread_list->contents }}" data-category="{{ $thread_list->category }}" data-subcategory="{{ $thread_list->sub_category }}" data-type="{{ $thread_list->type }}" data-username="{{ $thread_list->username }}" data-createddate="{{ $thread_list->created_date }}" data-latest_replydate="{{ $thread_list->latest_reply_date }}" data-view="{{ $thread_list->view }}" data-reply="{{ $thread_list->reply }}" data-complain="{{ $thread_list->complain }}" data-complainuser="{{ $thread_list->complain_user }}" data-upvote="{{ $thread_list->up_vote }}" data-downvote="{{ $thread_list->down_vote }}" data-toggle="modal"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
+                                            @if ($thread_list->is_active == 0)
+                                            Unactive
+                                            @else
+                                            Active
+                                            @endif
+                                        </td>
+                                        <td>
+                                            <a class="previewThreadModal" data-id="{{ $thread_list->id }}" data-title="{{ $thread_list->title }}" data-contents="{{ $thread_list->contents }}" data-category="{{ $thread_list->category }}" data-subcategory="{{ $thread_list->sub_category }}" data-type="{{ $thread_list->type }}" data-username="{{ $thread_list->username }}" data-createddate="{{ $thread_list->created_date }}" data-latest_replydate="{{ $thread_list->latest_reply_date }}" data-view="{{ $thread_list->view }}" data-reply="{{ $thread_list->reply }}" data-complain="{{ $thread_list->complain }}" data-complainuser="{{ $thread_list->complain_user }}" data-upvote="{{ $thread_list->up_vote }}" data-downvote="{{ $thread_list->down_vote }}" data-toggle="modal"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
                                             <a class="editSubscriptionModal" data-id="{{ $thread_list->id }}" data-title="{{ $thread_list->title }}" data-contents="{{ $thread_list->contents }}" data-category="{{ $thread_list->category }}" data-subcategory="{{ $thread_list->sub_category }}" data-type="{{ $thread_list->type }}" data-username="{{ $thread_list->username }}" data-createddate="{{ $thread_list->created_date }}" data-latest_replydate="{{ $thread_list->latest_reply_date }}" data-view="{{ $thread_list->view }}" data-reply="{{ $thread_list->reply }}" data-complain="{{ $thread_list->complain }}" data-complainuser="{{ $thread_list->complain_user }}" data-upvote="{{ $thread_list->up_vote }}" data-downvote="{{ $thread_list->down_vote }}" data-toggle="modal"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
                                             <a class="deleteSubscriptionModal" data-id="{{ $thread_list->id }}" data-toggle="modal"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
                                         </td>
@@ -172,104 +186,67 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-6" for="title">Title:</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" name="title">
+                    <input type="text" class="form-control" name="title" required>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-6" for="title">Contents:</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" name="contents">
+                    <input type="text" class="form-control" name="contents" required>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-6" for="title">Category:</label>
                 <div class="col-sm-5">
-                    <select class="form-control" name="category">
-                        <option value="0">Male</opiton>
-                        <option value="1">Female</opiton>
+                    <select class="form-control" id="add_category" name="category" required>
+                        <option></option>
+                        @if(count((array)$categories ?? '') == 0)
+                        @else
+                        @foreach($categories ?? '' as $category)
+                        @if ($category->parent_id == 0)
+                            <option value="{{$category->id}}">{{$category->title}}</opiton>
+                        @endif
+                        @endforeach
+                        @endif
 					</select>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-1"></div>
-                <label class="label_des col-sm-6" for="title">User Name:</label>
+                <label class="label_des col-sm-6" for="title">Subcategory:</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" name="username">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-1"></div>
-                <label class="label_des col-sm-6" for="title">Email:</label>
-                <div class="col-sm-5">
-                    <input type="email" class="form-control" name="email" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-1"></div>
-                <label class="label_des col-sm-6" for="title">Password:</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" name="password" required>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-1"></div>
-                <label class="label_des col-sm-6" for="title">Photo:</label>
-                <div class="col-sm-5">
-                    <input type="file" class="form-control" name="photo" accept="image/png, image/jpeg, image/jpg">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-1"></div>
-                <label class="label_des col-sm-6" for="title">Phone:</label>
-                <div class="col-sm-5">
-                    <input type="text" class="form-control" name="phone">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-1"></div>
-                <label class="label_des col-sm-6" for="title">Birthday:</label>
-                <div class="col-sm-5">
-                    <input type="date" class="form-control" name="birthday">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-1"></div>
-                <label class="label_des col-sm-6" for="title">Subscription:</label>
-                <div class="col-sm-5">
-                    <select class="form-control" name="subscription" id="add_subscription">
+                    <select class="form-control" name="subcategory" id="add_subcategory">
 					</select>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-1"></div>
-                <label class="label_des col-sm-6" for="title">Accept Messages from members:</label>
+                <label class="label_des col-sm-6" for="title">Type:</label>
                 <div class="col-sm-5">
-                    <select class="form-control" name="msg_accept">
-                        <option value="0">No</opiton>
-                        <option value="1">Yes</opiton>
+                    <select class="form-control" id="add_type" name="type" required>
+                        @if(count((array)$types ?? '') == 0)
+                        @else
+                        @foreach($types ?? '' as $type)
+                            <option value="{{$type->id}}">{{$type->title}}</opiton>
+                        @endforeach
+                        @endif
 					</select>
                 </div>
             </div>
             <div class="form-group">
                 <div class="col-sm-1"></div>
-                <label class="label_des col-sm-6" for="title">Allow Status:</label>
+                <label class="label_des col-sm-6" for="title">Created User:</label>
                 <div class="col-sm-5">
-                    <select class="form-control" name="key">
-                        <option value="0">Member</opiton>
-                        <option value="1">Admin</opiton>
-                        <option value="2">Moderator</opiton>
-					</select>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-1"></div>
-                <label class="label_des col-sm-6" for="title">Verification Status:</label>
-                <div class="col-sm-5">
-                    <select class="form-control" name="verification">
-                        <option value="0">No</opiton>
-                        <option value="1">Yes</opiton>
+                    <select class="form-control" id="add_created_user" name="created_user" required>
+                        <option></option>
+                        @if(count((array)$users ?? '') == 0)
+                        @else
+                        @foreach($users ?? '' as $user)
+                            <option value="{{$user->id}}">{{$user->username}}</opiton>
+                        @endforeach
+                        @endif
 					</select>
                 </div>
             </div>
@@ -278,6 +255,47 @@
                 <button type="submit" class="btn btn-success">
                     <span id="" class='glyphicon glyphicon-check'></span> Add
                 </button>
+                <button type="button" class="btn btn-warning" data-dismiss="modal">
+                    <span class='glyphicon glyphicon-remove'></span> Close
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="previewThreadModal" class="modal fade" tabindex="-1" data-width="620">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title text-center">Preview The Thread</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="for-group">
+                <p class="mini-title">Primary Details</p>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Title:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="previewTitle" name="title" readonly autofocus>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Contents:</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" rows="6" id="previewContents" name="contents" readonly autofocus></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Category:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="previewCategory" readonly autofocus>
+                </div>
+            </div>
+
+            <div class="modal-footer">
                 <button type="button" class="btn btn-warning" data-dismiss="modal">
                     <span class='glyphicon glyphicon-remove'></span> Close
                 </button>

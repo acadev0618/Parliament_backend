@@ -94,7 +94,7 @@
                         <a href="{{ asset('/forum/members') }}">Members</a>
                     </li>
 
-                    @if($subAction == "subscription")
+                    {{-- @if($subAction == "subscription")
                     <li class="active">
                     @else
                     <li>
@@ -107,9 +107,8 @@
                     @else
                     <li>
                     @endif
-                        {{-- <a href="{{ asset('/forum/visitSite') }}">Visit Site</a> --}}
-                        <a>Visit Site</a>
-                    </li>
+                        <a target="_blank" href="{{ asset('/onlineforum/') }}">Visit Site</a>
+                    </li> --}}
                 </ul>
             </li>
 
@@ -181,6 +180,18 @@
                 <a href="{{ asset('/videoStreaming') }}" class="active">
                     <i class="icon-briefcase"></i>
                     <span class="title">Video Streaming</span>
+                    <span class="selected"></span>
+                </a>
+            </li>
+
+            @if($sliderAction == "settings")
+            <li class="active open">
+            @else
+            <li>
+            @endif
+                <a href="{{ asset('/settings') }}" class="active">
+                    <i class="icon-briefcase"></i>
+                    <span class="title">Settings</span>
                     <span class="selected"></span>
                 </a>
             </li>

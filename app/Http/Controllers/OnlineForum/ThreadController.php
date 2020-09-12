@@ -27,6 +27,7 @@ class ThreadController extends Controller {
                 T2.username complain_user,
                 T1.up_vote,
                 T1.down_vote,
+                T1.is_active,
                 T3.title sub_category 
             FROM
                 (
@@ -45,7 +46,8 @@ class ThreadController extends Controller {
                     T1.complain_user,
                     T1.up_vote,
                     T1.down_vote,
-                    T1.sub_category 
+                    T1.sub_category, 
+                    T1.is_active 
                 FROM
                     forum_thread T1
                     LEFT JOIN forum_category T2 ON T1.category = T2.id
@@ -55,12 +57,14 @@ class ThreadController extends Controller {
                 LEFT JOIN forum_users T2 ON T1.complain_user = T2.id
                 LEFT JOIN forum_category T3 ON T1.sub_category = T3.id', [1]
             );
-            $category = DB::select('select * from forum_category', [1]);
+            $categories = DB::select('select * from forum_category', [1]);
             $users = DB::select('select * from forum_users', [1]);
+            $types = DB::select('select * from forum_type', [1]);
             return view('forum.thread')->with(
                 ['data' => $data,
-                'category' => $category,
+                'categories' => $categories,
                 'users' => $users,
+                'types' => $types,
                 'sliderAction' => 'onlineporum',
                 'subAction' => 'thread']
             );
@@ -69,8 +73,8 @@ class ThreadController extends Controller {
         }
     }
 
-    public function getSubscription() {
-        $data = DB::select('select * from forum_subscription', [1]);
+    public function getSubcategory(Request $request) {
+        $data = DB::select('select * from forum_category where parent_id = '.$request->parent_id, [1]);
         echo json_encode(array('success'=>$data));
     }
 
@@ -87,34 +91,19 @@ class ThreadController extends Controller {
         }
     }
 
-    public function createMembers(Request $request) {
-        $photo = $request->file('photo');
+    public function createThread(Request $request) {
 
         $data = array(
-            "first_name" => $request->first_name,
-            "last_name" => $request->last_name,
-            "username" => $request->username,
-            "created_date" => $request->created_date,
-            "password" => $request->password,
-            "phone" => $request->phone,            
-            "email" => $request->email,
-            "birthday" => $request->birthday,
-            "gender" => $request->gender,
-            "subscription" => $request->subscription,
-            "msg_accept" => $request->msg_accept,
-            "key" => $request->key,
-            "verification" => $request->verification
+            "title" => $request->title,
+            "contents" => $request->contents,
+            "category" => $request->category,
+            "sub_category" => $request->subcategory,
+            "type" => $request->type,
+            "user" => $request->created_user,
+            "created_date" => $request->created_date
         );
 
-        if(!empty($photo)) {
-            $photo_name = $photo->getClientOriginalName();
-            $destinationPath = 'forum/uploads';
-            $photo->move($destinationPath,$photo_name);
-            $photo_link = "/forum/uploads/".$photo_name;
-            $data += [ "photo" => $photo_link ];
-        }
-
-        $result = DB::table('forum_users')->insert($data);
+        $result = DB::table('forum_thread')->insert($data);
 
         if($result) {
             return back();

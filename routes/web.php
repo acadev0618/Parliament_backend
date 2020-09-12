@@ -143,6 +143,10 @@ Route::post('/updateVideoStreaming', 'VideoStreaming\VideoStreamingController@up
 Route::post('/deleteVideoStreaming', 'VideoStreaming\VideoStreamingController@deleteVideoStreaming')->name('request');
 Route::post('/multiDeleteVideoStreaming', 'VideoStreaming\VideoStreamingController@multiDeleteVideoStreaming')->name('request');
 
+////////////////////////////////////  Settings Urls   //////////////////////////////////////
+Route::get('/settings', 'SettingsController@index')->name('request');
+Route::post('/updateSetting', 'SettingsController@updateSetting')->name('request');
+
 ////////////////////////////////////  Online Forum Urls   /////////////////////////////////////////
 Route::prefix('/forum')->group(function() {
 
@@ -181,6 +185,7 @@ Route::prefix('/forum')->group(function() {
 
     // ------------------- Thread Urls --------------------------
     Route::get('/thread', 'OnlineForum\ThreadController@index')->name('request');
+    Route::post('/getSubcategory', 'OnlineForum\ThreadController@getSubcategory')->name('request');
     Route::post('/createThread', 'OnlineForum\ThreadController@createThread')->name('request');
     Route::post('/createSubThread', 'OnlineForum\ThreadController@createSubThread')->name('request');
     Route::post('/updateThread', 'OnlineForum\ThreadController@updateThread')->name('request');

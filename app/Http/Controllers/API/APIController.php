@@ -372,4 +372,71 @@ class APIController extends Controller
             return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $videoStreaming]);
         }
     }
+
+    // ================= Online Forum ======================
+    public function getThread()
+    {
+        $thread_list = DB::select('SELECT
+            T1.id,
+            T1.title,
+            T1.contents,
+            T1.category,
+            T1.username,
+            T1.photo,
+            T1.is_login,
+            T1.type,
+            T1.created_date,
+            T1.latest_reply_date,
+            T1.view,
+            T1.reply,
+            T1.complain,
+            T2.username complain_user,
+            T1.up_vote,
+            T1.down_vote,
+            T3.title sub_category 
+        FROM
+            (
+            SELECT
+                T1.id,
+                T1.title,
+                T1.contents,
+                T2.title category,
+                T3.username,
+                T3.photo,
+                T3.is_login,
+                T4.title type,
+                T1.created_date,
+                T1.latest_reply_date,
+                T1.view,
+                T1.reply,
+                T1.complain,
+                T1.complain_user,
+                T1.up_vote,
+                T1.down_vote,
+                T1.sub_category 
+            FROM
+                forum_thread T1
+                LEFT JOIN forum_category T2 ON T1.category = T2.id
+                LEFT JOIN forum_users T3 ON T1.USER = T3.id
+                LEFT JOIN forum_type T4 ON T1.type = T4.id 
+            ) T1
+            LEFT JOIN forum_users T2 ON T1.complain_user = T2.id
+            LEFT JOIN forum_category T3 ON T1.sub_category = T3.id', [1]
+        );
+        if(!$thread_list) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $thread_list]);
+        }
+    }
+
+    public function getImage()
+    {
+        $images = DB::select('select * from settings');
+        if(!$images) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $images]);
+        }
+    }
 }

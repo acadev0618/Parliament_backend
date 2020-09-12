@@ -222,7 +222,7 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-6" for="title">User Name:</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" name="username">
+                    <input type="text" class="form-control" name="username" required>
                 </div>
             </div>
             <div class="form-group">
