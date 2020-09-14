@@ -28,20 +28,42 @@ class MembersController extends Controller {
         echo json_encode(array('success'=>$data));
     }
 
-    public function updateSubscription(Request $request) {
-        $id = array('id' => $request->id);
+    public function updateMember(Request $request) {
+        $del_photo = $request->edit_del_photo;
+        $update_id = array('id' => $request->id);
+
         $data = array(
-            'title' => $request->title
+            "first_name" => $request->firstname,
+            "last_name" => $request->lastname,
+            "username" => $request->username,
+            "phone" => $request->mobile,            
+            "email" => $request->email,
+            "birthday" => $request->birthday,
+            "gender" => $request->gender,
+            "key" => $request->key
         );
+        if($del_photo == "false") {
+            $photo = $request->file('photo');
+            if($photo) {
+                $photo_name = $photo->getClientOriginalName();
+                $destinationPath = 'forum/uploads';
+                $photo->move($destinationPath,$photo_name);
+                $photo_link = "uploads/".$photo_name;
+                $data += [ "photo" => $photo_link ];
+            }
+        } else if($del_photo == "true") {
+            $data += [ "photo" => null ];
+        }
+
         $result = DB::table('forum_users')
-                ->where($id)
+                ->where($update_id)
                 ->update($data);
         if ($result == 1) {
             return back();
         }
     }
 
-    public function createMembers(Request $request) {
+    public function createMember(Request $request) {
         $photo = $request->file('photo');
 
         $data = array(
@@ -77,7 +99,7 @@ class MembersController extends Controller {
         }
     }
 
-    public function deleteSubscription(Request $request) {
+    public function deleteMember(Request $request) {
         $id = array(
             'id' => $request->id
         );
@@ -98,7 +120,7 @@ class MembersController extends Controller {
         return back()->with($notification);
     }
 
-    public function multiDeleteSubscription(Request $request) {
+    public function multiDeleteMember(Request $request) {
         $ids = $request->ids;
         $ids = explode(',', $ids);
         $result = 0;

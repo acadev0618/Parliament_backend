@@ -169,11 +169,10 @@ Route::prefix('/forum')->group(function() {
     // ------------------- Members Urls --------------------------
     Route::get('/members', 'OnlineForum\MembersController@index')->name('request');
     Route::get('/getSubscription', 'OnlineForum\MembersController@getSubscription')->name('request');
-    Route::post('/createMembers', 'OnlineForum\MembersController@createMembers')->name('request');
-    Route::post('/createSubMembers', 'OnlineForum\MembersController@createSubMembers')->name('request');
-    Route::post('/updateMembers', 'OnlineForum\MembersController@updateMembers')->name('request');
-    Route::post('/deleteMembers', 'OnlineForum\MembersController@deleteMembers')->name('request');
-    Route::post('/multiDeleteMembers', 'OnlineForum\MembersController@multiDeleteMembers')->name('request');
+    Route::post('/createMember', 'OnlineForum\MembersController@createMember')->name('request');
+    Route::post('/updateMember', 'OnlineForum\MembersController@updateMember')->name('request');
+    Route::post('/deleteMember', 'OnlineForum\MembersController@deleteMember')->name('request');
+    Route::post('/multiDeleteMember', 'OnlineForum\MembersController@multiDeleteMember')->name('request');
     
     // ------------------- Subscription Urls --------------------------
     Route::get('/subscription', 'OnlineForum\SubscriptionController@index')->name('request');
@@ -187,9 +186,13 @@ Route::prefix('/forum')->group(function() {
     Route::get('/thread', 'OnlineForum\ThreadController@index')->name('request');
     Route::post('/getSubcategory', 'OnlineForum\ThreadController@getSubcategory')->name('request');
     Route::post('/createThread', 'OnlineForum\ThreadController@createThread')->name('request');
-    Route::post('/createSubThread', 'OnlineForum\ThreadController@createSubThread')->name('request');
     Route::post('/updateThread', 'OnlineForum\ThreadController@updateThread')->name('request');
     Route::post('/deleteThread', 'OnlineForum\ThreadController@deleteThread')->name('request');
     Route::post('/multiDeleteThread', 'OnlineForum\ThreadController@multiDeleteThread')->name('request');
+
+    // ------------------- Reply Urls --------------------------
+    Route::get('/reply', 'OnlineForum\ReplyController@index')->name('request');
+    Route::post('/deleteReply', 'OnlineForum\ReplyController@deleteReply')->name('request');
+    Route::post('/multiDeleteReply', 'OnlineForum\ReplyController@multiDeleteReply')->name('request');
 });
 

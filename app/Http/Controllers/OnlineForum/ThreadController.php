@@ -16,8 +16,10 @@ class ThreadController extends Controller {
                 T1.id,
                 T1.title,
                 T1.contents,
+                T1.category_id,
                 T1.category,
                 T1.username,
+                T1.type_id,
                 T1.type,
                 T1.created_date,
                 T1.latest_reply_date,
@@ -35,8 +37,10 @@ class ThreadController extends Controller {
                     T1.id,
                     T1.title,
                     T1.contents,
+                    T2.id category_id,
                     T2.title category,
                     T3.username,
+                    T4.id type_id,
                     T4.title type,
                     T1.created_date,
                     T1.latest_reply_date,
@@ -78,12 +82,17 @@ class ThreadController extends Controller {
         echo json_encode(array('success'=>$data));
     }
 
-    public function updateSubscription(Request $request) {
+    public function updateThread(Request $request) {
         $id = array('id' => $request->id);
         $data = array(
-            'title' => $request->title
+            'title' => $request->title,
+            'contents' => $request->contents,
+            'category' => $request->category,
+            'sub_category' => $request->subcategory,
+            'type' => $request->type,
+            'is_active' => $request->active
         );
-        $result = DB::table('forum_users')
+        $result = DB::table('forum_thread')
                 ->where($id)
                 ->update($data);
         if ($result == 1) {
@@ -112,12 +121,12 @@ class ThreadController extends Controller {
         }
     }
 
-    public function deleteSubscription(Request $request) {
+    public function deleteThread(Request $request) {
         $id = array(
             'id' => $request->id
         );
 
-        $result = DB::table('forum_users')->where($id)->delete();
+        $result = DB::table('forum_thread')->where($id)->delete();
 
         if($result == 1) {
             $notification = array(
@@ -133,14 +142,14 @@ class ThreadController extends Controller {
         return back()->with($notification);
     }
 
-    public function multiDeleteSubscription(Request $request) {
+    public function multiDeleteThread(Request $request) {
         $ids = $request->ids;
         $ids = explode(',', $ids);
         $result = 0;
 
         for($i = 0; $i < count($ids); $i ++) {
 
-            $result = DB::table('forum_users')->where('id', '=', $ids[$i])->delete();
+            $result = DB::table('forum_thread')->where('id', '=', $ids[$i])->delete();
             $result++;
         }
 

@@ -24,7 +24,7 @@
 								<div class="col-md-6">
 									<div class="btn-group ballot-actions">
 										<button href="#addThreadModal" class="btn btn-primary addThreadModal" data-toggle="modal"><i class="fa fa-plus-circle"></i> <span>  Add Thread</span></button>
-										<button class="btn btn-danger deleteSubscriptionsModal" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-minus-circle"></i> <span>  Delete Thread</span></button>
+										<button class="btn btn-danger deleteThreadsModal" data-toggle="modal" style="margin-left: 10px;"><i class="fa fa-minus-circle"></i> <span>  Delete Thread</span></button>
 									</div>
 								</div>
 							</div>
@@ -155,8 +155,8 @@
                                         </td>
                                         <td>
                                             <a class="previewThreadModal" data-id="{{ $thread_list->id }}" data-title="{{ $thread_list->title }}" data-contents="{{ $thread_list->contents }}" data-category="{{ $thread_list->category }}" data-subcategory="{{ $thread_list->sub_category }}" data-type="{{ $thread_list->type }}" data-username="{{ $thread_list->username }}" data-createddate="{{ $thread_list->created_date }}" data-latest_replydate="{{ $thread_list->latest_reply_date }}" data-view="{{ $thread_list->view }}" data-reply="{{ $thread_list->reply }}" data-complain="{{ $thread_list->complain }}" data-complainuser="{{ $thread_list->complain_user }}" data-upvote="{{ $thread_list->up_vote }}" data-downvote="{{ $thread_list->down_vote }}" data-toggle="modal"><i class="fa fa-eye" data-toggle="tooltip" title="Preview"></i></a>
-                                            <a class="editSubscriptionModal" data-id="{{ $thread_list->id }}" data-title="{{ $thread_list->title }}" data-contents="{{ $thread_list->contents }}" data-category="{{ $thread_list->category }}" data-subcategory="{{ $thread_list->sub_category }}" data-type="{{ $thread_list->type }}" data-username="{{ $thread_list->username }}" data-createddate="{{ $thread_list->created_date }}" data-latest_replydate="{{ $thread_list->latest_reply_date }}" data-view="{{ $thread_list->view }}" data-reply="{{ $thread_list->reply }}" data-complain="{{ $thread_list->complain }}" data-complainuser="{{ $thread_list->complain_user }}" data-upvote="{{ $thread_list->up_vote }}" data-downvote="{{ $thread_list->down_vote }}" data-toggle="modal"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
-                                            <a class="deleteSubscriptionModal" data-id="{{ $thread_list->id }}" data-toggle="modal"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
+                                            <a class="editThreadModal" data-id="{{ $thread_list->id }}" data-title="{{ $thread_list->title }}" data-contents="{{ $thread_list->contents }}" data-category="{{ $thread_list->category_id }}" data-subcategory="{{ $thread_list->sub_category }}" data-type="{{ $thread_list->type_id }}" data-username="{{ $thread_list->username }}" data-active="{{ $thread_list->is_active }}" data-toggle="modal"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a>
+                                            <a class="deleteThreadModal" data-id="{{ $thread_list->id }}" data-toggle="modal"><i class="fa fa-trash-o" data-toggle="tooltip" title="Delete"></i></a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -193,7 +193,7 @@
                 <div class="col-sm-1"></div>
                 <label class="label_des col-sm-6" for="title">Contents:</label>
                 <div class="col-sm-5">
-                    <input type="text" class="form-control" name="contents" required>
+                    <textarea class="form-control" rows="6" name="contents" required></textarea>
                 </div>
             </div>
             <div class="form-group">
@@ -263,7 +263,7 @@
     </div>
 </div>
 
-<div id="previewThreadModal" class="modal fade" tabindex="-1" data-width="620">
+<div id="previewThreadModal" class="modal fade" tabindex="-1" data-width="700">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h4 class="modal-title text-center">Preview The Thread</h4>
@@ -288,11 +288,88 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-1"></div>
-                <label class="label_des col-sm-2" for="title">Category:</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="previewCategory" readonly autofocus>
+				<div class="col-sm-6">
+					<label class="label_des col-sm-3" for="title">Category:</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="previewCategory" readonly>
+					</div>
                 </div>
+                <div class="col-sm-6">
+					<label class="label_des col-sm-4" for="title">Subcategory:</label>
+					<div class="col-sm-8">
+						<input type="email" class="form-control" id="previewSubcategory" readonly>
+					</div>
+				</div>
+            </div>
+            <div class="form-group">
+				<div class="col-sm-6">
+					<label class="label_des col-sm-3" for="title">Type:</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="previewType" readonly>
+					</div>
+                </div>
+                <div class="col-sm-6">
+					<label class="label_des col-sm-4" for="title">CreatedUser:</label>
+					<div class="col-sm-8">
+						<input type="email" class="form-control" id="previewCreatedUser" readonly>
+					</div>
+				</div>
+            </div>
+            <div class="form-group">
+				<div class="col-sm-6">
+					<label class="label_des col-sm-4" for="title">CreatedDate:</label>
+					<div class="col-sm-8">
+						<input type="text" class="form-control" id="previewCreatedDate" readonly>
+					</div>
+                </div>
+                <div class="col-sm-6">
+					<label class="label_des col-sm-4" for="title">Last Reply Date:</label>
+					<div class="col-sm-8">
+						<input type="email" class="form-control" id="previewLastReplyDate" readonly>
+					</div>
+				</div>
+            </div>
+            <div class="form-group">
+				<div class="col-sm-6">
+					<label class="label_des col-sm-3" for="title">View:</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="previewView" readonly>
+					</div>
+                </div>
+                <div class="col-sm-6">
+					<label class="label_des col-sm-3" for="title">Reply:</label>
+					<div class="col-sm-9">
+						<input type="email" class="form-control" id="previewReply" readonly>
+					</div>
+				</div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">Complain:</label>
+                <div class="col-sm-9">
+                    <textarea class="form-control" rows="5" id="previewComplain" name="contents" readonly autofocus></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-2" for="title">ComplainUser:</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="previewComplainUser" readonly autofocus>
+                </div>
+            </div>
+            <div class="form-group">
+				<div class="col-sm-6">
+					<label class="label_des col-sm-3" for="title">Upvote:</label>
+					<div class="col-sm-9">
+						<input type="text" class="form-control" id="preUpvote" readonly>
+					</div>
+                </div>
+                <div class="col-sm-6">
+					<label class="label_des col-sm-3" for="title">Downvote:</label>
+					<div class="col-sm-9">
+						<input type="email" class="form-control" id="previewDownvote" readonly>
+					</div>
+				</div>
             </div>
 
             <div class="modal-footer">
@@ -304,17 +381,16 @@
     </div>
 </div>
 
-<div id="deleteSubscriptionModal" class="modal fade" tabindex="-1" data-width="420">
+<div id="deleteThreadModal" class="modal fade" tabindex="-1" data-width="420">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h4 class="modal-title text-center">Delete The Subscription</h4>
+        <h4 class="modal-title text-center">Delete The Thread</h4>
     </div>
     <div class="modal-body">					
-        <p>Are you sure you want to delete this Subscription?</p>
-        {{-- <p class="text-warning"><small>This action cannot be undone.</small></p> --}}
+        <p>Are you sure you want to delete this Thread?</p>
     </div>
     <div class="modal-footer">
-        <form class="form-horizontal" role="from" method="post" action="{{ asset('/forum/deleteSubscription') }}">
+        <form class="form-horizontal" role="from" method="post" action="{{ asset('/forum/deleteThread') }}">
         @csrf
 			<input type="text" class="id" name="id" hidden />
 			<button type="submit" class="btn btn-danger delete">
@@ -327,17 +403,17 @@
     </div>
 </div>
 
-<div id="deleteSubscriptionsModal" class="modal fade" tabindex="-1" data-width="420">
+<div id="deleteThreadsModal" class="modal fade" tabindex="-1" data-width="420">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h4 class="modal-title text-center">Delete Subscription Selected</h4>
+        <h4 class="modal-title text-center">Delete Threads Selected</h4>
     </div>
     <div class="modal-body">					
-        <p>Are you sure you want to delete these Subscription Selected?</p>
+        <p>Are you sure you want to delete these Threads Selected?</p>
         {{-- <p class="text-warning"><small>This action cannot be undone.</small></p> --}}
     </div>
     <div class="modal-footer"> 
-    <form class="form-horizontal" role="form" method="post" action="{{ asset('/forum/multiDeleteSubscription') }}">
+    <form class="form-horizontal" role="form" method="post" action="{{ asset('/forum/multiDeleteThread') }}">
 		@csrf            
 			<input type="text" class="ids" name="ids" hidden />
             <button type="submit" class="btn btn-danger deleteballots">
@@ -350,22 +426,78 @@
     </div>
 </div>
 
-<div id="editSubscriptionModal" class="modal fade" tabindex="-1" data-width="620">
+<div id="editThreadModal" class="modal fade" tabindex="-1" data-width="620">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
-        <h4 class="modal-title text-center">Edit The Subscription</h4>
+        <h4 class="modal-title text-center">Edit The Thread</h4>
     </div>
     <div class="modal-body">
-        <form class="form-horizontal" role="form" method="post" action="{{ asset('/forum/updateSubscription') }}">
-        @csrf
+        <form class="form-horizontal" role="form" method="post" action="{{ asset('/forum/updateThread') }}">
+            @csrf
             <div class="for-group">
                 <p class="mini-title">Primary Details</p>
             </div>
             <div class="form-group">
                 <div class="col-sm-1"></div>
-                <label class="label_des col-sm-2" for="title">Title:</label>
-                <div class="col-sm-9">
+                <label class="label_des col-sm-6" for="title">Title:</label>
+                <div class="col-sm-5">
                     <input type="text" class="form-control" id="editTitle" name="title" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-6" for="title">Contents:</label>
+                <div class="col-sm-5">
+                    <textarea class="form-control" rows="6" id="editContents" name="contents" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-6" for="title">Category:</label>
+                <div class="col-sm-5">
+                    <select class="form-control" id="editCategory" name="category" required>
+                        <option></option>
+                        @if(count((array)$categories ?? '') == 0)
+                        @else
+                        @foreach($categories ?? '' as $category)
+                        @if ($category->parent_id == 0)
+                            <option value="{{$category->id}}">{{$category->title}}</opiton>
+                        @endif
+                        @endforeach
+                        @endif
+					</select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-6" for="title">Subcategory:</label>
+                <div class="col-sm-5">
+                    <select class="form-control" name="subcategory" id="editSubcategory">
+					</select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-6" for="title">Type:</label>
+                <div class="col-sm-5">
+                    <select class="form-control" id="add_type" name="type" required>
+                        @if(count((array)$types ?? '') == 0)
+                        @else
+                        @foreach($types ?? '' as $type)
+                            <option value="{{$type->id}}">{{$type->title}}</opiton>
+                        @endforeach
+                        @endif
+					</select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-1"></div>
+                <label class="label_des col-sm-6" for="title">Active:</label>
+                <div class="col-sm-5">
+                    <select class="form-control" name="active" id="editActive">
+                        <option value="1">Yes</option>
+                        <option value="0">No</option>
+					</select>
                 </div>
             </div>
 
@@ -388,7 +520,7 @@
         <h4 class="modal-title text-center">Confirm</h4>
     </div>
     <div class="modal-body">					
-        <p>Please select Subscription.</p>
+        <p>Please select Thread.</p>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-warning" data-dismiss="modal">
