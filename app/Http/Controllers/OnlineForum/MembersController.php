@@ -36,11 +36,11 @@ class MembersController extends Controller {
             "first_name" => $request->firstname,
             "last_name" => $request->lastname,
             "username" => $request->username,
-            "phone" => $request->mobile,            
+            "phone" => $request->phone,            
             "email" => $request->email,
             "birthday" => $request->birthday,
             "gender" => $request->gender,
-            "key" => $request->key
+            "key" => $request->key,
         );
         if($del_photo == "false") {
             $photo = $request->file('photo');

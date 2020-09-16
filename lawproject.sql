@@ -11,7 +11,7 @@
  Target Server Version : 100411
  File Encoding         : 65001
 
- Date: 12/09/2020 09:52:35
+ Date: 14/09/2020 16:57:51
 */
 
 SET NAMES utf8mb4;
@@ -120,11 +120,13 @@ CREATE TABLE `forum_reply`  (
   `thread` int(10) NULL DEFAULT NULL,
   `contents` varchar(1000) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `user` int(10) NULL DEFAULT NULL,
-  `up_vote` int(1) NULL DEFAULT 0,
-  `down_vote` int(1) NULL DEFAULT 0,
   `created_date` datetime(0) NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `id`(`thread`) USING BTREE,
+  INDEX `user`(`user`) USING BTREE,
+  CONSTRAINT `id` FOREIGN KEY (`thread`) REFERENCES `forum_thread` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT,
+  CONSTRAINT `user` FOREIGN KEY (`user`) REFERENCES `forum_users` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for forum_subscription
@@ -165,16 +167,14 @@ CREATE TABLE `forum_thread`  (
   `complain_user` int(10) NULL DEFAULT NULL,
   `up_vote` int(100) NULL DEFAULT 0,
   `down_vote` int(100) NULL DEFAULT 0,
-  `is_active` int(1) NULL DEFAULT 0,
+  `is_active` int(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of forum_thread
 -- ----------------------------
-INSERT INTO `forum_thread` VALUES (1, 'Test', 'Test', 14, 19, 1, 2, NULL, NULL, 0, 0, NULL, NULL, 0, 0, 0);
-INSERT INTO `forum_thread` VALUES (2, 'Test1', 'This is Test1', 14, NULL, 1, 3, '2020-09-10 17:43:52', NULL, 0, 0, NULL, NULL, 0, 0, 0);
-INSERT INTO `forum_thread` VALUES (3, 'Test3', 'This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3', 14, 20, 2, 2, '2020-09-11 13:29:32', NULL, 0, 0, NULL, NULL, 0, 0, 0);
+INSERT INTO `forum_thread` VALUES (3, 'Test3', 'This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3 This is Test3', 14, 20, 1, 2, '2020-09-11 13:29:32', NULL, 0, 0, NULL, NULL, 0, 0, 1);
 
 -- ----------------------------
 -- Table structure for forum_type
@@ -217,15 +217,14 @@ CREATE TABLE `forum_users`  (
   `verification` int(1) NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `unique_email`(`email`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of forum_users
 -- ----------------------------
-INSERT INTO `forum_users` VALUES (1, NULL, NULL, 'mazad', 'info@mazad.om', 'ddd', '2020-07-31 16:49:36', NULL, 0, NULL, NULL, '2020-07-29', 0, 1, 0, 0, 0);
+INSERT INTO `forum_users` VALUES (1, NULL, NULL, 'mazad', 'info@mazad.om', 'ddd', '2020-07-31 16:49:36', NULL, 0, 'uploads/avatar.png', NULL, '2020-07-29', 0, 1, 0, 0, 0);
 INSERT INTO `forum_users` VALUES (2, NULL, NULL, 'blackimps', 'admin@demo.com', 'ddd', '2020-07-31 17:05:11', NULL, 0, '/forum/uploads/avatar.png', NULL, '2020-06-09', 0, 1, 0, 0, 0);
 INSERT INTO `forum_users` VALUES (3, NULL, NULL, 'demo', 'manager@demo.com', 'ddd', '2020-07-31 17:07:21', NULL, 0, '/forum/uploads/avatar.png', NULL, NULL, 0, 1, 0, 0, 0);
-INSERT INTO `forum_users` VALUES (4, NULL, NULL, 'fmazad', 'info@fmazad.om', 'ddd', '2020-07-31 17:08:26', NULL, 0, '/forum/uploads/avatar.png', NULL, NULL, 0, 1, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for hometable

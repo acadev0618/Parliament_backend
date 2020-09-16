@@ -55,3 +55,11 @@ Route::get('getImage', 'API\APIController@getImage');
 
 // ======================= Online Forum =======================
 Route::get('onlineforum/getthread', 'API\APIController@getThread');
+Route::post('onlineforum/register', 'API\APIController@register');
+Route::post('onlineforum/login', 'API\APIController@login');
+Route::post('onlineforum/logout', 'API\APIController@logout');
+Route::get('onlineforum/getDataforAddThread', 'API\APIController@getDataforAddThread');
+Route::post('onlineforum/addThread', 'API\APIController@addThread');
+Route::post('onlineforum/editThread', 'API\APIController@editThread');
+Route::post('onlineforum/deleteThread', 'API\APIController@deleteThread');
+Route::post('onlineforum/complain', 'API\APIController@complain');

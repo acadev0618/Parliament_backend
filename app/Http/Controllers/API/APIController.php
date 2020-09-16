@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use DateTime;
 use Illuminate\Http\Request;
 use DB;
 
@@ -373,6 +374,16 @@ class APIController extends Controller
         }
     }
 
+    public function getImage()
+    {
+        $images = DB::select('select * from settings');
+        if(!$images) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $images]);
+        }
+    }
+
     // ================= Online Forum ======================
     public function getThread()
     {
@@ -380,10 +391,13 @@ class APIController extends Controller
             T1.id,
             T1.title,
             T1.contents,
+            T1.categoryid,
             T1.category,
+            T1.user,
             T1.username,
             T1.photo,
             T1.is_login,
+            T1.typeid,
             T1.type,
             T1.created_date,
             T1.latest_reply_date,
@@ -393,17 +407,22 @@ class APIController extends Controller
             T2.username complain_user,
             T1.up_vote,
             T1.down_vote,
-            T3.title sub_category 
+            T1.sub_category sub_category_id,
+            T3.title sub_category,
+            T1.is_active 
         FROM
             (
             SELECT
                 T1.id,
                 T1.title,
                 T1.contents,
+                T1.user,
+                T1.category categoryid,
                 T2.title category,
                 T3.username,
                 T3.photo,
                 T3.is_login,
+                T1.type typeid,
                 T4.title type,
                 T1.created_date,
                 T1.latest_reply_date,
@@ -413,12 +432,14 @@ class APIController extends Controller
                 T1.complain_user,
                 T1.up_vote,
                 T1.down_vote,
-                T1.sub_category 
+                T1.sub_category,
+                T1.is_active 
             FROM
                 forum_thread T1
                 LEFT JOIN forum_category T2 ON T1.category = T2.id
                 LEFT JOIN forum_users T3 ON T1.USER = T3.id
-                LEFT JOIN forum_type T4 ON T1.type = T4.id 
+                LEFT JOIN forum_type T4 ON T1.type = T4.id
+                WHERE T1.is_complain = 0 AND T1.is_active = 1
             ) T1
             LEFT JOIN forum_users T2 ON T1.complain_user = T2.id
             LEFT JOIN forum_category T3 ON T1.sub_category = T3.id', [1]
@@ -430,13 +451,142 @@ class APIController extends Controller
         }
     }
 
-    public function getImage()
+    public function register(Request $request) {
+        $data = array(
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => $request->password
+        );
+        $result = DB::table('forum_users')->insert($data);
+        
+        if(!$result) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to register.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $data]);
+        }
+    }
+
+    public function login(Request $request) {
+        $data = array(
+            'email' => $request->email,
+            'password' => $request->password
+        );
+        $user = DB::table('forum_users')->where($data)->first();
+        
+        if(!$user) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to find.']);
+        } else {
+            $where = array(
+                'id' => $user->id
+            );
+            $update = array(
+                'is_login' => 1
+            );
+            $result = DB::table('forum_users')
+                ->where($where)
+                ->update($update);
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $user]);
+        }
+    }
+
+    public function logout(Request $request) {
+        $where = array(
+            'id' => $request->id
+        );
+        $update = array(
+            'is_login' => 0
+        );
+        $result = DB::table('forum_users')
+            ->where($where)
+            ->update($update);
+        
+        if($result != 1) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to find.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'successfully logout']);
+        }
+    }
+
+    public function getDataforAddThread()
     {
-        $images = DB::select('select * from settings');
-        if(!$images) {
+        $category = DB::select('select * from forum_category', [1]);
+        $type = DB::select('select * from forum_type', [1]);
+        if(!$category || !$type) {
             return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
         } else {
-            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $images]);
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'category' => $category, 'type' => $type]);
+        }
+    }
+
+    public function addThread(Request $request) {        
+        $dt = new DateTime();
+        $currentdatetime = $dt->format('Y-m-d H:i:s');
+        $data = array(
+            'category' => $request->category,
+            'sub_category' => $request->sub_category,
+            'title' => $request->title,
+            'contents' => $request->contents,
+            'type' => $request->type,
+            'user' => $request->user,
+            'created_date' => $currentdatetime
+        );
+        $result = DB::table('forum_thread')->insert($data);
+        if(!$result) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to register.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $data]);
+        }
+    }
+
+    public function editThread(Request $request) {        
+        $id = array('id' => $request->thread_id);
+        $data = array(
+            'category' => $request->category,
+            'sub_category' => $request->sub_category,
+            'title' => $request->title,
+            'contents' => $request->contents,
+            'type' => $request->type
+        );
+        $result = DB::table('forum_thread')
+                ->where($id)
+                ->update($data);
+        if ($result == 1) {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success']);
+        } else {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to complain.']);
+        }
+    }
+
+    public function deleteThread(Request $request) {
+        $id = array(
+            'id' => $request->id
+        );
+
+        $result = DB::table('forum_thread')->where($id)->delete();
+
+        if($result == 1) {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success']);
+        } else {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to delete this thread.']);
+        }
+    }
+
+    public function complain(Request $request) {
+        $id = array('id' => $request->thread_id);
+        $data = array(
+            'complain' => $request->message,
+            'complain_user' => $request->user_id,
+            'is_complain' => 1
+        );
+        $result = DB::table('forum_thread')
+                ->where($id)
+                ->update($data);
+        if ($result == 1) {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success']);
+        } else {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to complain.']);
         }
     }
 }

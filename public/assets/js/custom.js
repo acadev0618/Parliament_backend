@@ -2842,7 +2842,7 @@ var TableManaged = function () {
             $('#editLastname').val($(this).data('lastname'));
             $('#editUsername').val($(this).data('username'));
             $('#editEmail').val($(this).data('email'));
-            $('#editMobile').val($(this).data('phone'));
+            $('#editPhone').val($(this).data('phone'));
             $('#editType').val($(this).data('key'));
             $('#editBirthday').val($(this).data('birthday'));
             $('#editGender').val($(this).data('gender'));

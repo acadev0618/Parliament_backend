@@ -523,9 +523,9 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-1"></div>
-                <label class="label_des col-sm-2" for="title">Mobile:</label>
+                <label class="label_des col-sm-2" for="title">Phone:</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="editMobile" name="moblie">
+                    <input type="text" class="form-control" id="editPhone" name="phone">
                 </div>
             </div>
             <div class="form-group">
