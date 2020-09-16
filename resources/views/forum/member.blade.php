@@ -67,7 +67,7 @@
                                             Photo
                                         </th>
                                         <th>
-                                            Mobile
+                                            Phone
                                         </th>
                                         <th>
                                             Birthday
@@ -239,7 +239,7 @@
 					</div>
                 </div>
                 <div class="col-sm-6">
-					<label class="label_des col-sm-3" for="title">Mobile:</label>
+					<label class="label_des col-sm-3" for="title">Phone:</label>
 					<div class="col-sm-9">
 						<input type="email" class="form-control" id="previewMobile" readonly>
 					</div>
