@@ -63,3 +63,7 @@ Route::post('onlineforum/addThread', 'API\APIController@addThread');
 Route::post('onlineforum/editThread', 'API\APIController@editThread');
 Route::post('onlineforum/deleteThread', 'API\APIController@deleteThread');
 Route::post('onlineforum/complain', 'API\APIController@complain');
+Route::post('onlineforum/getthreaduser', 'API\APIController@getthreaduser');
+Route::post('onlineforum/upVote', 'API\APIController@upVote');
+Route::post('onlineforum/downVote', 'API\APIController@downVote');
+Route::post('onlineforum/reply', 'API\APIController@reply');

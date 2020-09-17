@@ -444,10 +444,11 @@ class APIController extends Controller
             LEFT JOIN forum_users T2 ON T1.complain_user = T2.id
             LEFT JOIN forum_category T3 ON T1.sub_category = T3.id', [1]
         );
-        if(!$thread_list) {
+        $category = DB::select('select * from forum_category', [1]);
+        if(!$thread_list && !$category) {
             return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Field not exist.']);
         } else {
-            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $thread_list]);
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $thread_list, 'category' => $category]);
         }
     }
 
@@ -549,13 +550,14 @@ class APIController extends Controller
             'contents' => $request->contents,
             'type' => $request->type
         );
+        
         $result = DB::table('forum_thread')
                 ->where($id)
                 ->update($data);
-        if ($result == 1) {
+        if ($result != null) {
             return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success']);
         } else {
-            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to complain.']);
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to edit this thread.']);
         }
     }
 
@@ -587,6 +589,56 @@ class APIController extends Controller
             return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success']);
         } else {
             return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to complain.']);
+        }
+    }
+
+    public function getthreaduser(Request $request) {
+        $result = DB::select('select * from forum_users where id = '.$request->id, [1]);
+        $thread = DB::select('select * from forum_thread where id = '.$request->thread_id, [1]);
+        if ($result) {
+            DB::table('forum_thread')->where(array('id' => $request->thread_id))->update(array('view' => $thread[0]->view+1));
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $result]);
+        } else {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to get user created this thread.']);
+        }
+    }
+
+    public function upVote(Request $request) {
+        $thread = DB::select('select * from forum_thread where id = '.$request->thread_id, [1]);
+        $result = DB::table('forum_thread')->where(array('id' => $request->thread_id))->update(array('up_vote' => $thread[0]->up_vote+1));
+        if ($result == 1) {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $thread]);
+        } else {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to vote.']);
+        }
+    }
+
+    public function downVote(Request $request) {
+        $thread = DB::select('select * from forum_thread where id = '.$request->thread_id, [1]);
+        $result = DB::table('forum_thread')->where(array('id' => $request->thread_id))->update(array('down_vote' => $thread[0]->down_vote+1));
+        if ($result == 1) {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $thread]);
+        } else {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to vote.']);
+        }
+    }
+
+    public function reply(Request $request) {
+        $dt = new DateTime();
+        $currentdatetime = $dt->format('Y-m-d H:i:s');
+        $data = array(
+            'thread' => $request->thread_id,
+            'contents' => $request->contents,
+            'user' => $request->user,
+            'created_date' => $currentdatetime
+        );
+        $result = DB::table('forum_reply')->insert($data);
+        $thread = DB::select('select * from forum_thread where id = '.$request->thread_id, [1]);
+        if(!$result) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to register.']);
+        } else {
+            DB::table('forum_thread')->where(array('id' => $request->thread_id))->update(array('reply' => $thread[0]->reply+1));
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $data]);
         }
     }
 }
