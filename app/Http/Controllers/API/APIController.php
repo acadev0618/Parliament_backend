@@ -595,9 +595,10 @@ class APIController extends Controller
     public function getthreaduser(Request $request) {
         $result = DB::select('select * from forum_users where id = '.$request->id, [1]);
         $thread = DB::select('select * from forum_thread where id = '.$request->thread_id, [1]);
+        $voted = DB::select('select * from forum_vote where thread = '.$request->thread_id.' and user = '.$request->current_user, [1]);
         if ($result) {
             DB::table('forum_thread')->where(array('id' => $request->thread_id))->update(array('view' => $thread[0]->view+1));
-            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $result]);
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $result, 'voted' => $voted]);
         } else {
             return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to get user created this thread.']);
         }
@@ -639,6 +640,56 @@ class APIController extends Controller
         } else {
             DB::table('forum_thread')->where(array('id' => $request->thread_id))->update(array('reply' => $thread[0]->reply+1));
             return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $data]);
+        }
+    }
+
+    public function editProfile(Request $request) {
+        $update_id = array('id' => $request->id);
+        $photo = $request->file('photo');
+
+        $data = array(
+            "first_name" => $request->first_name,
+            "last_name" => $request->last_name,
+            "username" => $request->username,
+            "phone" => $request->phone,            
+            "email" => $request->email,
+            "birthday" => $request->birthday,
+            "gender" => $request->gender
+        );
+        if($photo) {
+            $photo_name = $photo->getClientOriginalName();
+            $destinationPath = 'forum/uploads';
+            $photo->move($destinationPath,$photo_name);
+            $photo_link = "forum/uploads/".$photo_name;
+            $data += [ "photo" => $photo_link ];
+        }
+
+        $result = DB::table('forum_users')
+                ->where($update_id)
+                ->update($data);
+        $user = DB::select('select * from forum_users where id = '.$request->id, [1]);
+        if ($result == 1) {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $user]);
+        } else {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to edit this thread.']);
+        }
+    }
+
+    public function changePassword(Request $request) {
+        $update_id = array('id' => $request->user_id);
+
+        $data = array(
+            "password" => $request->new_password
+        );
+
+        $result = DB::table('forum_users')
+                ->where($update_id)
+                ->update($data);
+        $user = DB::select('select * from forum_users where id = '.$request->user_id, [1]);
+        if ($result == 1) {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $user]);
+        } else {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to edit this thread.']);
         }
     }
 }

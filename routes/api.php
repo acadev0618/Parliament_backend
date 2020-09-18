@@ -67,3 +67,5 @@ Route::post('onlineforum/getthreaduser', 'API\APIController@getthreaduser');
 Route::post('onlineforum/upVote', 'API\APIController@upVote');
 Route::post('onlineforum/downVote', 'API\APIController@downVote');
 Route::post('onlineforum/reply', 'API\APIController@reply');
+Route::post('onlineforum/editProfile', 'API\APIController@editProfile');
+Route::post('onlineforum/changePassword', 'API\APIController@changePassword');
