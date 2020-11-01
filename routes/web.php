@@ -196,3 +196,24 @@ Route::prefix('/forum')->group(function() {
     Route::post('/multiDeleteReply', 'OnlineForum\ReplyController@multiDeleteReply')->name('request');
 });
 
+////////////////////////////////////  Get Involved Urls   /////////////////////////////////////////
+Route::prefix('/get-involved')->group(function() {
+    // ------------------- Contract Senator Urls --------------------------
+    Route::get('/contract-senator', 'getInvolved\ContractController@index')->name('request');
+    Route::post('/updateContract', 'getInvolved\ContractController@updateContract')->name('request');
+    Route::post('/deleteContract', 'getInvolved\ContractController@deleteContract')->name('request');
+    Route::post('/multiDeleteContract', 'getInvolved\ContractController@multiDeleteContract')->name('request');
+
+    // ------------------- Petition Senator Urls --------------------------
+    Route::get('/petition-senator', 'getInvolved\PetitionController@index')->name('request');
+    Route::post('/updatePetition', 'getInvolved\PetitionController@updatePetition')->name('request');
+    Route::post('/deletePetition', 'getInvolved\PetitionController@deletePetition')->name('request');
+    Route::post('/multiDeletePetition', 'getInvolved\PetitionController@multiDeletePetition')->name('request');
+
+    // ------------------- Visitor Parliament Urls --------------------------
+    Route::get('/visit-parliament', 'getInvolved\VisitorController@index')->name('request');
+    Route::post('/updateVisitor', 'getInvolved\VisitorController@updateVisitor')->name('request');
+    Route::post('/deleteVisitor', 'getInvolved\VisitorController@deleteVisitor')->name('request');
+    Route::post('/multiDeleteVisitor', 'getInvolved\VisitorController@multiDeleteVisitor')->name('request');
+});
+

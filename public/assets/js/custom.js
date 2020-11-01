@@ -3197,6 +3197,365 @@ var TableManaged = function () {
         });
     }
 
+    var contractTable = function () {
+
+        var table = $('#contract_table');
+        table.dataTable({
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "Show _MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "language": {
+                "lengthMenu": " _MENU_ records"
+            },
+            "columnDefs": [{  // set default column settings
+                'orderable': false,
+                'targets': [0]
+            }, {
+                "searchable": false,
+                "targets": [0]
+            }],
+            "order": [
+                [1, "asc"]
+            ] // set first column as a default sort by asc
+        });
+
+        table.on('click', '.previewContractModal', function(){
+
+            var modal = $('#previewContractModal');
+            $('#previewName').val($(this).data('name'));
+            $('#previewSenator').val($(this).data('senator'));
+            $('#previewEmail').val($(this).data('email'));
+            $('#previewMobile').val($(this).data('mobile'));
+            $('#previewSubject').val($(this).data('subject'));
+            $('#previewDescription').val($(this).data('description'));
+            modal.modal('show');
+        });
+
+        table.on('click', '.deleteContractModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#deleteContractModal');
+
+            modal.find('.id').val(id);
+            modal.modal('show');
+        });
+
+        table.on('click', '.editContractModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#editContractModal');
+            $('#editName').val($(this).data('name'));
+            $('#editSenator').val($(this).data('senator'));
+            $('#editEmail').val($(this).data('email'));
+            $('#editMobile').val($(this).data('mobile'));
+            $('#editSubject').val($(this).data('subject'));
+            $('#editDescription').val($(this).data('description'));
+            modal.find('#editContract_id').val(id);
+            modal.modal('show');
+        });
+
+        table.find('.group-checkable').change(function () {
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                } else {
+                    $(this).attr("checked", false);
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $(document).on('click', '.deleteContractsModal', function(){
+            var modal = $('#deleteContractsModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var ids = allVals.join(",");
+
+                modal.find('.ids').val(ids);
+            }
+        });
+    }
+
+    var petitionTable = function () {
+
+        var table = $('#petition_table');
+        table.dataTable({
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "Show _MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "language": {
+                "lengthMenu": " _MENU_ records"
+            },
+            "columnDefs": [{  // set default column settings
+                'orderable': false,
+                'targets': [0]
+            }, {
+                "searchable": false,
+                "targets": [0]
+            }],
+            "order": [
+                [1, "asc"]
+            ] // set first column as a default sort by asc
+        });
+
+        $('.del_petition').change(function () {
+            var checked = jQuery(this).is(":checked");
+            console.log(checked);
+            $('#editPetitionModal #edit_del_petition').val(checked);
+         });
+
+        table.on('click', '.previewPetitionModal', function(){
+
+            var modal = $('#previewPetitionModal');
+            $('#previewName').val($(this).data('name'));
+            $('#previewBillAct').val($(this).data('billact'));
+            $('#previewEmail').val($(this).data('email'));
+            $('#previewSubject').val($(this).data('subject'));
+            $('#previewDescription').val($(this).data('description'));
+            modal.modal('show');
+        });
+
+        table.on('click', '.deletePetitionModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#deletePetitionModal');
+
+            modal.find('.id').val(id);
+            modal.modal('show');
+        });
+
+        table.on('click', '.editPetitionModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#editPetitionModal');
+            $('#editName').val($(this).data('name'));
+            $('#editBillAct').val($(this).data('billact'));
+            $('#editEmail').val($(this).data('email'));
+            $('#editSubject').val($(this).data('subject'));
+            $('#editDescription').val($(this).data('description'));
+            modal.find('#editPetition_id').val(id);
+            modal.modal('show');
+        });
+
+        table.find('.group-checkable').change(function () {
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                } else {
+                    $(this).attr("checked", false);
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $(document).on('click', '.deletePetitionsModal', function(){
+            var modal = $('#deletePetitionsModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var ids = allVals.join(",");
+
+                modal.find('.ids').val(ids);
+            }
+        });
+    }
+
+    var visitorTable = function () {
+
+        var table = $('#visitor_table');
+        table.dataTable({
+            "language": {
+                "aria": {
+                    "sortAscending": ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                },
+                "emptyTable": "No data available in table",
+                "info": "Showing _START_ to _END_ of _TOTAL_ entries",
+                "infoEmpty": "No entries found",
+                "infoFiltered": "(filtered1 from _MAX_ total entries)",
+                "lengthMenu": "Show _MENU_ entries",
+                "search": "Search:",
+                "zeroRecords": "No matching records found"
+            },
+            "bStateSave": true, // save datatable state(pagination, sort, etc) in cookie.
+            
+            "lengthMenu": [
+                [5, 15, 20, -1],
+                [5, 15, 20, "All"] // change per page values here
+            ],
+            // set the initial value
+            "pageLength": 5,
+            "language": {
+                "lengthMenu": " _MENU_ records"
+            },
+            "columnDefs": [{  // set default column settings
+                'orderable': false,
+                'targets': [0]
+            }, {
+                "searchable": false,
+                "targets": [0]
+            }],
+            "order": [
+                [1, "asc"]
+            ] // set first column as a default sort by asc
+        });
+
+        table.on('click', '.previewVisitorModal', function(){
+
+            var modal = $('#previewVisitorModal');
+            $('#previewInstitution').val($(this).data('institution'));
+            $('#previewName').val($(this).data('name'));
+            $('#previewVisitReason').val($(this).data('visitreason'));
+            $('#previewVisitDate').val($(this).data('visitdate'));
+            $('#previewVisitorNum').val($(this).data('visitornum'));
+            $('#previewEmail').val($(this).data('email'));
+            $('#previewMobile').val($(this).data('mobile'));
+            $('#previewComments').val($(this).data('comments'));
+            modal.modal('show');
+        });
+
+        table.on('click', '.deleteVisitorModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#deleteVisitorModal');
+
+            modal.find('.id').val(id);
+            modal.modal('show');
+        });
+
+        table.on('click', '.editVisitorModal', function(){
+            var id = $(this).data('id');
+
+            var modal = $('#editVisitorModal');
+            $('#editInstitution').val($(this).data('institution'));
+            $('#editName').val($(this).data('name'));
+            $('#editVisitReason').val($(this).data('visitreason'));
+            $('#editVisitDate').val($(this).data('visitdate'));
+            $('#editVisitNum').val($(this).data('visitornum'));
+            $('#editEmail').val($(this).data('email'));
+            $('#editMobile').val($(this).data('mobile'));
+            $('#editComments').val($(this).data('comments'));
+            modal.find('#editVisitor_id').val(id);
+            modal.modal('show');
+        });
+
+        table.find('.group-checkable').change(function () {
+            var set = jQuery(this).attr("data-set");
+            var checked = jQuery(this).is(":checked");
+            jQuery(set).each(function () {
+                if (checked) {
+                    $(this).attr("checked", true);
+                } else {
+                    $(this).attr("checked", false);
+                }
+            });
+            jQuery.uniform.update(set);
+        });
+
+        table.find('.checkboxes').change(function(){
+            var checked = $(this).is(":checked");
+            if (checked) {
+                $(this).attr("checked", true);
+            } else {
+                $(this).attr("checked", false);
+            }
+        });
+
+        $(document).on('click', '.deleteVisitorsModal', function(){
+            var modal = $('#deleteVisitorsModal');
+            var allVals = [];
+
+            table.find(".checkboxes:checked").each(function() {  
+                allVals.push($(this).attr('data-id'));
+            });
+
+            if(allVals.length <= 0) {
+                var confrim = $('#confirmModal');
+                confrim.modal('show');
+            } else {
+                modal.modal('show');
+                var ids = allVals.join(",");
+
+                modal.find('.ids').val(ids);
+            }
+        });
+    }
+
     return {
         init: function () {
             if (!jQuery().dataTable) {
@@ -3231,6 +3590,9 @@ var TableManaged = function () {
             forummembersTable();
             forumthreadTable();
             forumreplyTable();
+            contractTable();
+            petitionTable();
+            visitorTable();
         }
     };
 }();

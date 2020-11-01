@@ -52,6 +52,9 @@ Route::get('parliamentClerk', 'API\APIController@parliamentClerk');
 Route::get('parliamentCalendar', 'API\APIController@parliamentCalendar');
 Route::get('videoStreaming', 'API\APIController@videoStreaming');
 Route::get('getImage', 'API\APIController@getImage');
+Route::post('contractSenator', 'API\APIController@contractSenator');
+Route::post('petitionSenator', 'API\APIController@petitionSenator');
+Route::post('visitParliament', 'API\APIController@visitParliament');
 
 // ======================= Online Forum =======================
 Route::get('onlineforum/getthread', 'API\APIController@getThread');

@@ -112,6 +112,44 @@
                 </ul>
             </li>
 
+            @if($sliderAction == "getinvolved")
+            <li class="active open">
+            @else
+            <li>
+            @endif
+                <a href="javascript:;">
+                    <i class="icon-briefcase"></i>
+                    <span class="title">Get Involved</span>
+                    <span class="arrow"></span>
+                    <span class="selected"></span>
+                </a>
+                <ul class="sub-menu manage_ul">
+                    @if($subAction == "contract")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/get-involved/contract-senator') }}">Contract your Senator</a>
+                    </li>
+                    
+                    @if($subAction == "petition")
+                    <li class="active">
+                    @else
+                    <li>    
+                    @endif
+                        <a href="{{ asset('/get-involved/petition-senator') }}">Petition your senator</a>
+                    </li>
+                    
+                    @if($subAction == "visitor")
+                    <li class="active">
+                    @else
+                    <li>
+                    @endif
+                        <a href="{{ asset('/get-involved/visit-parliament') }}">Visit Parliament</a>
+                    </li>
+                </ul>
+            </li>
+
             @if($sliderAction == "votes")
             <li class="active open">
             @else

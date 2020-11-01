@@ -384,6 +384,71 @@ class APIController extends Controller
         }
     }
 
+    public function contractSenator(Request $request) {
+        $data = array(
+            'name' => $request->name,
+            'senator' => $request->senator,
+            'email' => $request->email,
+            'mobile' => $request->mobile,
+            'subject' => $request->subject,
+            'description' => $request->description
+        );
+        $result = DB::table('contract_senator')->insert($data);
+        
+        if(!$result) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to submit.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $data]);
+        }
+    }
+
+    public function petitionSenator(Request $request) {
+        $petition = $request->file('petition');
+
+        $data = array(
+            "name" => $request->name,
+            "bill_act" => $request->bill_act,
+            "email" => $request->email,
+            "subject" => $request->subject,            
+            "description" => $request->description
+        );
+        if($petition) {
+            $petition_name = $petition->getClientOriginalName();
+            $destinationPath = 'uploads';
+            $petition->move($destinationPath,$petition_name);
+            $petition_link = "/uploads/".$petition_name;
+            $data += [ "petition" => $petition_link ];
+        }
+
+        $result = DB::table('petition_senator')->insert($data);
+        
+        if(!$result) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to submit.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $data]);
+        }
+    }
+
+    public function visitParliament(Request $request) {
+        $data = array(
+            'institution' => $request->institution,
+            'name' => $request->name,
+            'visit_reason' => $request->visit_reason,
+            'visit_date' => $request->visit_date,
+            'visitor_num' => $request->visitor_num,
+            'email' => $request->email,
+            'mobile' => $request->mobile,
+            'comments' => $request->comments
+        );
+        $result = DB::table('visit_parliament')->insert($data);
+        
+        if(!$result) {
+            return response()->json(['status' => '404', 'error_code' => '1', 'message' => 'Faild to submit.']);
+        } else {
+            return response()->json(['status' => '200', 'error_code' => '0', 'message' => 'success', 'data' => $data]);
+        }
+    }
+
     // ================= Online Forum ======================
     public function getThread()
     {
